@@ -26,11 +26,11 @@ info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
 #sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
-wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
+wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet --allow-root
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
-PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
+PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet --allow-root)
 
 info "Start removing Bitnami Default Plugins ..."
 rm -rf /opt/bitnami/wordpress/wp-content/plugins/akismet/
@@ -53,7 +53,7 @@ if [[ $PLUGINSACTIVATION == *"Error"* ]]; then
 
 else
 
-    FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
+    FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys --allow-root)
     echo "$FRESHCONNECTKEYS"
 
 fi
