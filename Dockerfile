@@ -4,4 +4,11 @@ LABEL maintainer "Bitnami <containers@bitnami.com>"
 # Install custom or additional server modules
 RUN install_packages unzip nano vim
 
-CMD [ "/tfc-init.sh" ]
+# Copy Over needed files
+COPY scripts /
+
+# Adjust script permissions
+RUN chmod +x /tfc-init.sh
+
+# Execute Script
+RUN /tfc-init.sh
