@@ -7,7 +7,8 @@ RUN install_packages unzip nano vim
 # Copy Over needed files
 COPY scripts /
 
-EXPOSE 80 443
+# Adjust script permissions
+RUN chmod +x /tfc-init.sh
 
-ENTRYPOINT [ "/app-entrypoint.sh" ]
-CMD [ "nami", "start", "--foreground", "apache" ]
+# Execute Script
+ENTRYPOINT [ "/tfc-init.sh" ]
