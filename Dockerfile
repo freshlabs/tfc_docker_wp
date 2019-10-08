@@ -11,4 +11,4 @@ COPY scripts /
 RUN chmod +x /tfc-init.sh
 
 # Execute Script
-CMD [ "/tfc-init.sh" ]
+ENTRYPOINT [ "/tfc-init.sh" ]
