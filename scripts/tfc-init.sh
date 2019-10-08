@@ -71,5 +71,3 @@ chown -R bitnami:daemon /opt/bitnami/wordpress
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
-
-exec tini -- "$@"
