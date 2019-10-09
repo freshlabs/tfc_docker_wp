@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+# this is from the original app-entrypoint.sh
+# https://github.com/bitnami/bitnami-docker-wordpress/blob/master/5/debian-9/rootfs/app-entrypoint.sh
 . /opt/bitnami/base/functions
 . /opt/bitnami/base/helpers
 
@@ -10,6 +12,7 @@ if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   nami_initialize apache php mysql-client wordpress
   info "Starting wordpress... "
 fi
+# this is from the original app-entrypoint.sh
 
 info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
 
@@ -75,3 +78,5 @@ chown -R bitnami:daemon /opt/bitnami/wordpress
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
+
+exec tini -- "$@"
