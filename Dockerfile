@@ -12,3 +12,8 @@ RUN install_packages unzip nano vim
 
 # Execute Script
 #ENTRYPOINT [ "/tfc-init.sh" ]
+
+EXPOSE 80 443
+
+ENTRYPOINT [ "/app-entrypoint.sh" ]
+CMD [ "nami", "start", "--foreground", "apache" ]
