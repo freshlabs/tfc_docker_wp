@@ -5,10 +5,10 @@ LABEL maintainer "Bitnami <containers@bitnami.com>"
 RUN install_packages unzip nano vim
 
 # Copy Over needed files
-COPY scripts /
+#COPY scripts /
 
 # Adjust script permissions
-RUN chmod +x /tfc-init.sh
+#RUN chmod +x /tfc-init.sh
 
 # Execute Script
-ENTRYPOINT [ "/tfc-init.sh" ]
+#ENTRYPOINT [ "/tfc-init.sh" ]
