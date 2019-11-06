@@ -21,6 +21,7 @@ chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 info "Group write access given."
 
 FCPPATH="/opt/bitnami/wordpress/wp-content/plugins/fresh-connect/";
+INSTALLFILE="/opt/bitnami/wordpress/wp-content/.alreadyinstalled";
 
 if [ -d "$FCPPATH" ]; then
     info "Looks like a Fresh Connect Plugin already existed.  We need to delete it and install the latest version first."
@@ -40,18 +41,21 @@ info "Finished Installing additional plugins"
 info "Activating custom plugins and grabing FCK's ..."
 PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
 
-info "Start removing Bitnami Default Plugins ..."
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/akismet/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-seo-pack/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-wp-migration/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/wp-cloud-mgmt-console/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/google-analytics-for-wordpress/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/jetpack/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/simple-tags/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/w3-total-cache/
-rm -rf /opt/bitnami/wordpress/wp-content/plugins/wordpress-mu-domain-mapping/
-rm -f /opt/bitnami/wordpress/wp-content/plugins/hello.php
-info "Finished removing Bitnami Default Plugins"
+# this is only executed on the first install
+if [ ! -f "$INSTALLFILE" ]; then
+    info "Start removing Bitnami Default Plugins ..."
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/akismet/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-seo-pack/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-wp-migration/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/wp-cloud-mgmt-console/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/google-analytics-for-wordpress/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/jetpack/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/simple-tags/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/w3-total-cache/
+    rm -rf /opt/bitnami/wordpress/wp-content/plugins/wordpress-mu-domain-mapping/
+    rm -f /opt/bitnami/wordpress/wp-content/plugins/hello.php
+    info "Finished removing Bitnami Default Plugins"
+fi
 
 echo "Fresh Connect Key >>"
 
@@ -67,6 +71,10 @@ else
 fi
 
 echo "<< Fresh Connect Key"
+
+info "Setup placeholder file used to identify first install..."
+touch "$INSTALLFILE"
+info "Setup placeholder file completed"
 
 info "Setup Special permissions on needed files"
 touch /opt/bitnami/wordpress/.htaccess
