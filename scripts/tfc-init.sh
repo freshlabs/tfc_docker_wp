@@ -68,6 +68,7 @@ else
     #FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
 
     #echo "$FRESHCONNECTKEYS"
+    echo "Hiding FCK Output for now."
 
 fi
 
