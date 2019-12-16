@@ -39,7 +39,7 @@ sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/googl
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
-PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
+PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin deactivate fresh-connect --quiet)
 
 # this is only executed on the first install
 if [ ! -f "$INSTALLFILE" ]; then
@@ -65,10 +65,9 @@ if [[ $PLUGINSACTIVATION == *"Error"* ]]; then
 
 else
 
-    #FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
+    FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
 
-    #echo "$FRESHCONNECTKEYS"
-    echo "Hiding FCK Output for now."
+    echo "$FRESHCONNECTKEYS"
 
 fi
 
