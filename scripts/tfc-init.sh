@@ -65,13 +65,9 @@ if [[ $PLUGINSACTIVATION == *"Error"* ]]; then
 
 else
 
-    FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
+    #FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
 
-    if [[ $FRESHCONNECTKEYS == *"Error"* ]]; then
-
-        echo "$FRESHCONNECTKEYS"
-        
-    fi
+    #echo "$FRESHCONNECTKEYS"
 
 fi
 
