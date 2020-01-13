@@ -35,11 +35,11 @@ sudo -u daemon -- mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-
 info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
-sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
+wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet --allow-root
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
-PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
+PLUGINSACTIVATION=$(wp plugin activate fresh-connect --quiet --allow-root)
 
 # this is only executed on the first install
 if [ ! -f "$INSTALLFILE" ]; then
@@ -65,7 +65,7 @@ if [[ $PLUGINSACTIVATION == *"Error"* ]]; then
 
 else
 
-    FRESHCONNECTKEYS=$(sudo -u daemon -- wp option get fp_connection_keys)
+    FRESHCONNECTKEYS=$(wp option get fp_connection_keys --allow-root)
 
     echo "$FRESHCONNECTKEYS"
 
