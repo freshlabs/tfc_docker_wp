@@ -83,7 +83,7 @@ touch /opt/bitnami/wordpress/ads.txt
 chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 chmod g+rwX /opt/bitnami/wordpress/.htaccess
 chmod g+rwX /opt/bitnami/wordpress/ads.txt
-chown -R bitnami:daemon /opt/bitnami/wordpress
+chown -R daemon:daemon /opt/bitnami/wordpress
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
