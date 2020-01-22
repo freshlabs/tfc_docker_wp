@@ -35,11 +35,11 @@ sudo -u daemon -- mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-
 info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
-wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet --allow-root
+sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
-PLUGINSACTIVATION=$(wp plugin activate fresh-connect --quiet --allow-root)
+PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
 
 # this is only executed on the first install
 if [ ! -f "$INSTALLFILE" ]; then
@@ -83,7 +83,7 @@ touch /opt/bitnami/wordpress/ads.txt
 chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 chmod g+rwX /opt/bitnami/wordpress/.htaccess
 chmod g+rwX /opt/bitnami/wordpress/ads.txt
-chown -R daemon:daemon /opt/bitnami/wordpress
+chown -R bitnami:daemon /opt/bitnami/wordpress
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
