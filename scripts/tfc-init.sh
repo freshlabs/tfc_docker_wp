@@ -29,8 +29,8 @@ if [ -d "$FCPPATH" ]; then
 fi
 
 info "Start Installing custom plugins and grabing FCK's ..."
-sudo -u daemon -- curl -s -L https://github.com/freshlabs/fresh-connect-wp-plugin/archive/master.zip -o /tmp/fresh-connect.zip
-sudo -u daemon -- unzip -o /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-content/plugins/
+curl -s -L https://github.com/freshlabs/fresh-connect-wp-plugin/archive/master.zip -o /tmp/fresh-connect.zip
+unzip -o /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-content/plugins/
 mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-wp-plugin-master "$FCPPATH"
 info "Finished Installing custom plugins and grabing FCK's"
 
