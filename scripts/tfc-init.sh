@@ -7,11 +7,14 @@
 
 print_welcome_page
 
-#if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
+nami_initialize apache php mysql-client
+info "Starting services... "
+
+if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
-  nami_initialize apache php mysql-client wordpress
+  nami_initialize wordpress
   info "Starting wordpress... "
-#fi
+fi
 # this is from the original app-entrypoint.sh
 
 info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
