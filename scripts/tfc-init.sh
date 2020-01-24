@@ -7,8 +7,6 @@
 
 print_welcome_page
 
-nami start --foreground apache
-
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
   nami_initialize wordpress
