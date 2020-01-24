@@ -88,4 +88,6 @@ info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
 
+nami start --foreground apache
+
 exec tini -- "$@"
