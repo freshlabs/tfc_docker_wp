@@ -9,7 +9,7 @@ print_welcome_page
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
-  nami_initialize wordpress
+  nami_initialize apache php mysql-client wordpress
   info "Starting wordpress... "
 fi
 # this is from the original app-entrypoint.sh
