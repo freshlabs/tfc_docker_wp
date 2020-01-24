@@ -7,8 +7,7 @@
 
 print_welcome_page
 
-nami_initialize apache php mysql-client
-info "Starting services... "
+nami start --foreground apache
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
@@ -32,9 +31,9 @@ if [ -d "$FCPPATH" ]; then
 fi
 
 info "Start Installing custom plugins and grabing FCK's ..."
-curl -s -L https://github.com/freshlabs/fresh-connect-wp-plugin/archive/master.zip -o /tmp/fresh-connect.zip
-unzip -o /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-content/plugins/
-mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-wp-plugin-master "$FCPPATH"
+sudo -u daemon -- curl -s -L https://github.com/freshlabs/fresh-connect-wp-plugin/archive/master.zip -o /tmp/fresh-connect.zip
+sudo -u daemon -- unzip -o /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-content/plugins/
+sudo -u daemon -- mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-wp-plugin-master "$FCPPATH"
 info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
@@ -90,7 +89,5 @@ chown -R bitnami:daemon /opt/bitnami/wordpress
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
-
-nami start --foreground apache
 
 exec tini -- "$@"
