@@ -10,15 +10,17 @@ print_welcome_page
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
   nami_initialize apache php mysql-client wordpress
+
+  info "Disable PHP error reporting on php.ini ..."
+  sed -i 's/error_reporting = .*/error_reporting = E_ALL & ~E_NOTICE & ~E_WARNING/' /opt/bitnami/php/lib/php.ini
+  info "PHP error reporting disabled."
+  
+  nami_initialize wordpress
   info "Starting wordpress... "
 fi
 # this is from the original app-entrypoint.sh
 
 info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
-
-info "Disable PHP error reporting on php.ini ..."
-sed -i 's/error_reporting = .*/error_reporting = E_ALL & ~E_NOTICE & ~E_WARNING/' /opt/bitnami/php/lib/php.ini
-info "PHP error reporting disabled."
 
 info "Giving group write access to wp-config ... "
 chmod g+rwX /opt/bitnami/wordpress/wp-config.php
