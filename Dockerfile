@@ -16,4 +16,4 @@ EXPOSE 80 443
 
 # Execute scripts
 ENTRYPOINT [ "./tfc-init.sh" ]
-CMD [ "nami", "start", "--foreground", "apache" ]
+CMD [ "nami", "--log-level=silent", "start", "--foreground", "apache" ]
