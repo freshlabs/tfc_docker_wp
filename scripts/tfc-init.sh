@@ -9,13 +9,7 @@ print_welcome_page
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
-  nami_initialize apache php mysql-client
-
-  info "Disable PHP error reporting on php.ini ..."
-  sed -i 's/error_reporting = .*/error_reporting = E_ALL & ~E_NOTICE & ~E_WARNING/' /opt/bitnami/php/lib/php.ini
-  info "PHP error reporting disabled."
-
-  nami_initialize wordpress
+  nami_initialize apache php mysql-client wordpress
   info "Starting wordpress... "
 fi
 # this is from the original app-entrypoint.sh
