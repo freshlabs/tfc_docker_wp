@@ -34,9 +34,9 @@ sudo -u daemon -- unzip -o /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-c
 sudo -u daemon -- mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-wp-plugin-master "$FCPPATH"
 info "Finished Installing custom plugins and grabing FCK's"
 
-info "Start Installing additional plugins ..."
-sudo -u daemon -- wp plugin install google-pagespeed-insights --force --activate --quiet
-info "Finished Installing additional plugins"
+#info "Start Installing additional plugins ..."
+#sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
+#info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
 PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
