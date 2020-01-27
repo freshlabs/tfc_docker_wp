@@ -35,7 +35,8 @@ sudo -u daemon -- mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-
 info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
-chown -R daemon:daemon /bitnami/wordpress/wp-content/plugins
+chown -R bitnami:daemon /bitnami/wordpress/wp-content/plugins
+chown -R bitnami:daemon /opt/bitnami/wordpress
 sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
 info "Finished Installing additional plugins"
 
