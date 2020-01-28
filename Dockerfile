@@ -9,11 +9,8 @@ COPY scripts /
 
 # Adjust script permissions
 RUN chown root:root /tfc-init.sh
+RUN chown root:root /wp-=cli.yml
 RUN chmod a+x /tfc-init.sh
-
-#RUN cp -rf /wp-cli.local.yml /opt/bitnami/wp-cli/conf/wp-cli.yml
-
-#ENV WP_CLI_CONFIG_PATH="/opt/bitnami/wp-cli/conf/wp-cli.yml"
 
 # Expose Service Ports
 EXPOSE 80 443

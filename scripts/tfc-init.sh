@@ -78,6 +78,10 @@ info "Setup placeholder file used to identify first install..."
 touch "$INSTALLFILE"
 info "Setup placeholder file completed"
 
+info "Setup wp-cli config file ..."
+cp -rf /wp-cli.yml /bitnami/wordpress/wp-cli.yml
+info "Setup wp-cli config completed"
+
 info "Setup Special permissions on needed files"
 touch /opt/bitnami/wordpress/.htaccess
 touch /opt/bitnami/wordpress/ads.txt
