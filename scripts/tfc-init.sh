@@ -8,8 +8,16 @@
 print_welcome_page
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
+
   . /wordpress-init.sh
-  nami_initialize apache php mysql-client wordpress || true
+  
+  info "Adding config entries to wp-cli ... "
+  sed -i '$ a\skip-themes: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
+  sed -i '$ a\skip-plugins: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
+  info "Adding config entries to wp-cli completed"
+
+  nami_initialize apache php mysql-client wordpress
+  
   info "Starting wordpress... "
 fi
 # this is from the original app-entrypoint.sh
