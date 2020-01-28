@@ -17,7 +17,7 @@ info "Setup wp-cli config completed"
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
-  WP_CLI_CONFIG_PATH='/wp-cli.local.yml' nami_initialize apache php mysql-client wordpress
+  WP_CLI_CONFIG_PATH='/wp-cli.local.yml' nami_initialize apache php mysql-client wordpress || true
   info "Starting wordpress... "
 fi
 # this is from the original app-entrypoint.sh
