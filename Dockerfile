@@ -9,7 +9,7 @@ COPY scripts /
 
 # Adjust script permissions
 RUN chown root:root /tfc-init.sh
-RUN chown root:root /wp-=cli.yml
+RUN chown root:root /wp-cli.yml
 RUN chmod a+x /tfc-init.sh
 
 # Expose Service Ports
