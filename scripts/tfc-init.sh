@@ -7,14 +7,14 @@
 
 print_welcome_page
 
+info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
+
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
   nami_initialize apache php mysql-client wordpress
   info "Starting wordpress... "
 fi
 # this is from the original app-entrypoint.sh
-
-info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
 
 info "Giving group write access to wp-config ... "
 chmod g+rwX /opt/bitnami/wordpress/wp-config.php
