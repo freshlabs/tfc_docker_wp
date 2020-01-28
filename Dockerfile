@@ -1,5 +1,8 @@
+ARG WP_CLI_CONFIG_PATH=/bitnami/wordpress/wp-cli.yml
 FROM bitnami/wordpress:5.3.2
 LABEL maintainer "Bitnami <containers@bitnami.com>"
+
+ENV WP_CLI_CONFIG_PATH=/bitnami/wordpress/wp-cli.yml
 
 # Install custom or additional server modules
 RUN install_packages unzip nano vim
