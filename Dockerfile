@@ -1,4 +1,4 @@
-ARG WP_CLI_CONFIG_PATH=/bitnami/wordpress/wp-cli.yml
+ARG WP_CLI_CONFIG_PATH=/bitnami/wordpress/wp-cli.local.yml
 FROM bitnami/wordpress:5.3.2
 LABEL maintainer "Bitnami <containers@bitnami.com>"
 
@@ -12,7 +12,7 @@ COPY scripts /
 
 # Adjust script permissions
 RUN chown root:root /tfc-init.sh
-RUN chown root:root /wp-cli.yml
+RUN chown root:root /wp-cli.local.yml
 RUN chmod a+x /tfc-init.sh
 
 # Expose Service Ports

@@ -79,7 +79,7 @@ touch "$INSTALLFILE"
 info "Setup placeholder file completed"
 
 info "Setup wp-cli config file ..."
-mv -f /wp-cli.yml /bitnami/wordpress/wp-cli.yml
+mv -f /wp-cli.local.yml /bitnami/wordpress/wp-cli.local.yml
 info "Setup wp-cli config completed"
 
 info "Setup Special permissions on needed files"
