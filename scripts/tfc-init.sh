@@ -9,6 +9,12 @@ print_welcome_page
 
 info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
 
+# this seems redundant but necessary currently since the file at the root appears to be ignored by the nami_initialize wordpress function below
+info "Setup wp-cli config file ..."
+sed -i '$ a\skip-themes: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
+sed -i '$ a\skip-plugins: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
+info "Setup wp-cli config completed"
+
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
   nami_initialize apache php mysql-client wordpress
