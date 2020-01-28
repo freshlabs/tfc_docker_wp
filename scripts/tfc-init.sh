@@ -9,10 +9,6 @@ print_welcome_page
 
 info "Welcome to The Fresh Cloud, we just need to setup some additional things... "
 
-info "Setup wp-cli config file ..."
-cp -f /wp-cli.local.yml /bitnami/wordpress/wp-cli.local.yml
-info "Setup wp-cli config completed"
-
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
   . /wordpress-init.sh
   nami_initialize apache php mysql-client wordpress
