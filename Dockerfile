@@ -11,6 +11,8 @@ COPY scripts /
 RUN chown root:root /tfc-init.sh
 RUN chmod a+x /tfc-init.sh
 
+ENV WP_CLI_CONFIG_PATH="/wp-cli.local.yml"
+
 # Expose Service Ports
 EXPOSE 80 443
 
