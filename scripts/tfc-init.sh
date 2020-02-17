@@ -91,8 +91,7 @@ chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 chmod g+rwX /opt/bitnami/wordpress/.htaccess
 chmod g+rwX /opt/bitnami/wordpress/ads.txt
 chown -R bitnami:daemon /opt/bitnami/wordpress
-find /opt/bitnami/wordpress/wp-content/uploads -type d -print0 | xargs -0 chmod 775 
-find /opt/bitnami/wordpress/wp-content/uploads -type f -print0 | xargs -0 chmod 664
+chown -R bitnami:daemon /bitnami/wordpress/wp-content
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
