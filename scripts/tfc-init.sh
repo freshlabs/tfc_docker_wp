@@ -42,7 +42,7 @@ info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
 rm -rf /bitnami/wordpress/wp-content/plugins/google-pagespeed-insights/
-sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet
+sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --quiet || true
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
