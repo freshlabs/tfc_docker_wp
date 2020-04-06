@@ -1,4 +1,4 @@
-FROM bitnami/wordpress:5.3.2
+FROM bitnami/wordpress:5.4.0
 LABEL maintainer "Bitnami <containers@bitnami.com>"
 
 # Install custom or additional server modules
