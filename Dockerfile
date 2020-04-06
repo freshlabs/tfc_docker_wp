@@ -1,16 +1,17 @@
 FROM bitnami/wordpress:5.4.0
 LABEL maintainer "Bitnami <containers@bitnami.com>"
+USER root
 
 # Install custom or additional server modules
-RUN sudo install_packages nano vim
+RUN install_packages nano vim
 
 # Copy Over needed files
-COPY sudo scripts /
+COPY scripts /
 
 # Adjust script permissions
-RUN sudo chown root:root /tfc-init.sh
-RUN sudo chown root:root /wp-cli.local.yml
-RUN sudo chmod a+x /tfc-init.sh
+RUN chown root:root /tfc-init.sh
+RUN chown root:root /wp-cli.local.yml
+RUN chmod a+x /tfc-init.sh
 
 # Expose Service Ports
 EXPOSE 80 443
