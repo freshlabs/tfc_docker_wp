@@ -2,7 +2,7 @@ FROM bitnami/wordpress:5.4.0
 LABEL maintainer "Bitnami <containers@bitnami.com>"
 
 # Install custom or additional server modules
-RUN install_packages nano vim
+RUN apt-get install nano vim -y --force-yes -qq
 
 # Copy Over needed files
 COPY scripts /
