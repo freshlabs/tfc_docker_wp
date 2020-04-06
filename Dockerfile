@@ -5,12 +5,12 @@ LABEL maintainer "Bitnami <containers@bitnami.com>"
 RUN sudo install_packages nano vim
 
 # Copy Over needed files
-COPY scripts /
+COPY sudo scripts /
 
 # Adjust script permissions
-RUN chown root:root /tfc-init.sh
-RUN chown root:root /wp-cli.local.yml
-RUN chmod a+x /tfc-init.sh
+RUN sudo chown root:root /tfc-init.sh
+RUN sudo chown root:root /wp-cli.local.yml
+RUN sudo chmod a+x /tfc-init.sh
 
 # Expose Service Ports
 EXPOSE 80 443
