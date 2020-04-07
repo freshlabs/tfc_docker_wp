@@ -14,7 +14,9 @@ RUN chown 1001:daemon /wp-cli.local.yml
 RUN chmod a+x /tfc-init.sh
 
 # Expose Service Ports
-EXPOSE 8080 8443
+ENV APACHE_HTTP_PORT_NUMBER=80
+ENV APACHE_HTTPS_PORT_NUMBER=443
+EXPOSE 80 443
 
 # Execute scripts
 ENTRYPOINT [ "./tfc-init.sh" ]
