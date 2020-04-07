@@ -11,8 +11,8 @@ info "Welcome to The Fresh Cloud, we just need to setup some additional things..
 
 # this seems redundant but necessary currently since the file at the root appears to be ignored by the nami_initialize wordpress function below
 info "Setup wp-cli config file ..."
-sed -i '$ a\skip-themes: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
-sed -i '$ a\skip-plugins: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
+sudo sed -i '$ a\skip-themes: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
+sudo sed -i '$ a\skip-plugins: true' /opt/bitnami/wp-cli/conf/wp-cli.yml
 info "Setup wp-cli config completed"
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/init.sh" ]]; then
@@ -23,7 +23,7 @@ fi
 # this is from the original app-entrypoint.sh
 
 info "Giving group write access to wp-config ... "
-chmod g+rwX /opt/bitnami/wordpress/wp-config.php
+sudo chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 info "Group write access given."
 
 FCPPATH="/opt/bitnami/wordpress/wp-content/plugins/fresh-connect/";
@@ -35,32 +35,32 @@ if [ -d "$FCPPATH" ]; then
 fi
 
 info "Start Installing custom plugins and grabing FCK's ..."
-sudo -u daemon -- curl -s -L https://github.com/freshlabs/fresh-connect-wp-plugin/archive/master.zip -o /tmp/fresh-connect.zip
-sudo -u daemon -- unzip -o -q /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-content/plugins/
-sudo -u daemon -- mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-wp-plugin-master "$FCPPATH"
+sudo curl -s -L https://github.com/freshlabs/fresh-connect-wp-plugin/archive/master.zip -o /tmp/fresh-connect.zip
+sudo unzip -o -q /tmp/fresh-connect.zip -d /opt/bitnami/wordpress/wp-content/plugins/
+sudo mv -f /opt/bitnami/wordpress/wp-content/plugins/fresh-connect-wp-plugin-master "$FCPPATH"
 info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
 rm -rf /bitnami/wordpress/wp-content/plugins/google-pagespeed-insights/
-sudo -u daemon -- wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate || true
+sudo wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --allow-root || true
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
-PLUGINSACTIVATION=$(sudo -u daemon -- wp plugin activate fresh-connect --quiet)
+PLUGINSACTIVATION=$(sudo wp plugin activate fresh-connect --quiet --allow-root)
 
 # this is only executed on the first install
 if [ ! -f "$INSTALLFILE" ]; then
     info "Start removing Bitnami Default Plugins ..."
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/akismet/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-seo-pack/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-wp-migration/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/wp-cloud-mgmt-console/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/google-analytics-for-wordpress/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/jetpack/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/simple-tags/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/w3-total-cache/
-    rm -rf /opt/bitnami/wordpress/wp-content/plugins/wordpress-mu-domain-mapping/
-    rm -f /opt/bitnami/wordpress/wp-content/plugins/hello.php
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/akismet/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-seo-pack/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/all-in-one-wp-migration/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/wp-cloud-mgmt-console/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/google-analytics-for-wordpress/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/jetpack/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/simple-tags/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/w3-total-cache/
+    sudo rm -rf /opt/bitnami/wordpress/wp-content/plugins/wordpress-mu-domain-mapping/
+    sudo rm -f /opt/bitnami/wordpress/wp-content/plugins/hello.php
     info "Finished removing Bitnami Default Plugins"
 fi
 
@@ -81,19 +81,19 @@ fi
 echo "<< Fresh Connect Key"
 
 info "Setup placeholder file used to identify first install..."
-touch "$INSTALLFILE"
+sudo touch "$INSTALLFILE"
 info "Setup placeholder file completed"
 
 info "Setup Special permissions on needed files"
-touch /opt/bitnami/wordpress/.htaccess
-touch /opt/bitnami/wordpress/ads.txt
-chmod g+rwX /opt/bitnami/wordpress/wp-config.php
-chmod g+rwX /opt/bitnami/wordpress/.htaccess
-chmod g+rwX /opt/bitnami/wordpress/ads.txt
-chown -R bitnami:daemon /opt/bitnami/wordpress
-find /opt/bitnami/wordpress/wp-content/ -type d -exec chmod 775 {} \;
-find /opt/bitnami/wordpress/wp-content/ -type f -exec chmod 664 {} \;
-chown -R bitnami:daemon /bitnami/wordpress/wp-content/
+sudo touch /opt/bitnami/wordpress/.htaccess
+sudo touch /opt/bitnami/wordpress/ads.txt
+sudo chmod g+rwX /opt/bitnami/wordpress/wp-config.php
+sudo chmod g+rwX /opt/bitnami/wordpress/.htaccess
+sudo chmod g+rwX /opt/bitnami/wordpress/ads.txt
+sudo chown -R 1001:1001 /opt/bitnami/wordpress
+sudo find /opt/bitnami/wordpress/wp-content/ -type d -exec chmod 775 {} \;
+sudo find /opt/bitnami/wordpress/wp-content/ -type f -exec chmod 664 {} \;
+sudo chown -R 1001:1001 /bitnami/wordpress/wp-content/
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
