@@ -22,9 +22,9 @@ if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "httpd" ]]; then
 fi
 # this is from the original app-entrypoint.sh
 
-info "Giving group write access to wp-config ... "
-chmod g+rwX /opt/bitnami/wordpress/wp-config.php
-info "Group write access given."
+#info "Giving group write access to wp-config ... "
+#chmod g+rwX /opt/bitnami/wordpress/wp-config.php
+#info "Group write access given."
 
 FCPPATH="/opt/bitnami/wordpress/wp-content/plugins/fresh-connect/";
 INSTALLFILE="/opt/bitnami/wordpress/wp-content/.alreadyinstalled";
@@ -91,10 +91,10 @@ touch /opt/bitnami/wordpress/ads.txt
 chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 chmod g+rwX /opt/bitnami/wordpress/.htaccess
 chmod g+rwX /opt/bitnami/wordpress/ads.txt
-chown -R 1001:daemon /opt/bitnami/wordpress
-find /opt/bitnami/wordpress/wp-content/ -type d -exec chmod 775 {} \;
-find /opt/bitnami/wordpress/wp-content/ -type f -exec chmod 664 {} \;
-chown -R 1001:daemon /bitnami/wordpress/wp-content/
+#chown -R 1001:daemon /opt/bitnami/wordpress
+#find /opt/bitnami/wordpress/wp-content/ -type d -exec chmod 775 {} \;
+#find /opt/bitnami/wordpress/wp-content/ -type f -exec chmod 664 {} \;
+#chown -R 1001:daemon /bitnami/wordpress/wp-content/
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
