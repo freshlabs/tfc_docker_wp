@@ -7,7 +7,7 @@
 
 print_welcome_page
 
-info "Welcome to The Fresh Cloud, we just need to setup some additional things... rev 0.001"
+info "Welcome to The Fresh Cloud, we just need to setup some additional things... rev 0.002"
 
 # this seems redundant but necessary currently since the file at the root appears to be ignored by the nami_initialize wordpress function below
 info "Setup wp-cli config file ..."
