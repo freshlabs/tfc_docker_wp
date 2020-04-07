@@ -43,11 +43,11 @@ info "Finished Installing custom plugins and grabing FCK's"
 
 info "Start Installing additional plugins ..."
 rm -rf /bitnami/wordpress/wp-content/plugins/google-pagespeed-insights/
-wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate || true
+wp plugin install https://downloads.wordpress.org/plugin/google-pagespeed-insights.zip --force --activate --allow-root || true
 info "Finished Installing additional plugins"
 
 info "Activating custom plugins and grabing FCK's ..."
-PLUGINSACTIVATION=$(wp plugin activate fresh-connect --quiet)
+PLUGINSACTIVATION=$(wp plugin activate fresh-connect --quiet --allow-root)
 
 # this is only executed on the first install
 if [ ! -f "$INSTALLFILE" ]; then
