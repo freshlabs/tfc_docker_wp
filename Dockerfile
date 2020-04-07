@@ -10,7 +10,11 @@ USER 1001
 COPY scripts /
 
 # Adjust script permissions
+USER 0
+RUN chown 1001:daemon /tfc-init.sh
+RUN chown 1001:daemon /wp-cli.local.yml
 RUN chmod a+x /tfc-init.sh
+USER 1001
 
 # Expose Service Ports
 EXPOSE 8080 8443
