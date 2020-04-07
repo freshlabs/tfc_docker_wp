@@ -90,10 +90,10 @@ sudo touch /opt/bitnami/wordpress/ads.txt
 sudo chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 sudo chmod g+rwX /opt/bitnami/wordpress/.htaccess
 sudo chmod g+rwX /opt/bitnami/wordpress/ads.txt
-sudo chown -R 1001:1001 /opt/bitnami/wordpress
+sudo chown -R root:daemon /opt/bitnami/wordpress
 sudo find /opt/bitnami/wordpress/wp-content/ -type d -exec chmod 775 {} \;
 sudo find /opt/bitnami/wordpress/wp-content/ -type f -exec chmod 664 {} \;
-sudo chown -R 1001:1001 /bitnami/wordpress/wp-content/
+sudo chown -R root:daemon /bitnami/wordpress/wp-content/
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
