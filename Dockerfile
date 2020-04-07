@@ -1,8 +1,8 @@
 FROM bitnami/wordpress:5.4.0
 LABEL maintainer "Bitnami <containers@bitnami.com>"
-USER root
 
 # Install custom or additional server modules
+USER 0
 RUN install_packages nano vim
 
 # Copy Over needed files
