@@ -18,7 +18,7 @@ info "Setup wp-cli config completed"
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "httpd" ]]; then
     . /apache-init.sh
     . /wordpress-init.sh
-    nami_initialize apache php mysql-client wordpress
+    nami_initialize apache php mysql-client wordpress || true
 fi
 # this is from the original app-entrypoint.sh
 
