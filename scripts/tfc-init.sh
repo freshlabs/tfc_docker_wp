@@ -88,7 +88,7 @@ info "Setup placeholder file completed"
 info "Setup Special permissions on needed files"
 touch /opt/bitnami/wordpress/.htaccess
 touch /opt/bitnami/wordpress/ads.txt
-chmod g+rwX /opt/bitnami/wordpress/wp-config.php
+#chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 chmod g+rwX /opt/bitnami/wordpress/.htaccess
 chmod g+rwX /opt/bitnami/wordpress/ads.txt
 #chown -R 1001:daemon /opt/bitnami/wordpress
