@@ -7,7 +7,7 @@
 
 print_welcome_page
 
-info "Welcome to The Fresh Cloud, we just need to setup some additional things... rev 0.005"
+info "Welcome to The Fresh Cloud, we just need to setup some additional things... rev 0.006"
 
 # this seems redundant but necessary currently since the file at the root appears to be ignored by the nami_initialize wordpress function below
 info "Setup wp-cli config file ..."
@@ -93,10 +93,10 @@ touch /opt/bitnami/wordpress/ads.txt
 chmod g+rwX /opt/bitnami/wordpress/wp-config.php
 chmod g+rwX /opt/bitnami/wordpress/.htaccess
 chmod g+rwX /opt/bitnami/wordpress/ads.txt
-chown -R 1001:daemon /opt/bitnami/wordpress
+chown -R daemon:daemon /opt/bitnami/wordpress
 find /opt/bitnami/wordpress/wp-content/ -type d -exec chmod 775 {} \;
 find /opt/bitnami/wordpress/wp-content/ -type f -exec chmod 664 {} \;
-chown -R 1001:daemon /opt/bitnami/wordpress/wp-content/
+chown -R daemon:daemon /opt/bitnami/wordpress/wp-content/
 info "Finished Setup Special permissions on needed files"
 
 info "Custom commands completed"
