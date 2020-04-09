@@ -14,7 +14,7 @@ RUN chown root:root /wp-cli.local.yml
 RUN chmod a+x /tfc-init.sh
 
 # Started copy apache config files ...
-COPY conf /opt/bitnami/apache/conf/
+#COPY conf /opt/bitnami/apache/conf/
 # Finished copy apache config files
 
 # Expose Service Ports
