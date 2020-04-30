@@ -1,4 +1,0 @@
-# Global parameter defaults
-path: "/opt/bitnami/wordpress/"
-skip-themes: true
-skip-plugins: true
