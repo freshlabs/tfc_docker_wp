@@ -75,6 +75,6 @@ ENV WORDPRESS_HTTP_PORT=80
 ENV WORDPRESS_HTTPS_PORT=443
 EXPOSE 80 443
 
-#USER 1001
+USER 1001
 ENTRYPOINT [ "/app-entrypoint.sh" ]
 CMD [ "httpd", "-f", "/opt/bitnami/apache/conf/httpd.conf", "-DFOREGROUND" ]
