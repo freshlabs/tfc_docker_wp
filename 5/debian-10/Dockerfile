@@ -11,6 +11,9 @@ RUN install_packages ca-certificates curl dirmngr gnupg libaudit1 libbsd0 libbz2
 
 RUN chmod +x /build/bitnami-user.sh
 RUN chmod +x /build/install-nami.sh
+RUN chmod +x /usr/sbin/bitnami-pkg
+RUN chmod +x /opt/bitnami/base/functions
+RUN chmod +x /opt/bitnami/base/helpers
 
 RUN /build/bitnami-user.sh
 RUN /build/install-nami.sh
