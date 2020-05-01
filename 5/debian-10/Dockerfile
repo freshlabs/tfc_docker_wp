@@ -1,5 +1,6 @@
 FROM docker.io/bitnami/minideb:buster
 LABEL maintainer "Bitnami <containers@bitnami.com>"
+USER root
 
 ENV BITNAMI_PKG_CHMOD="-R g+rwX" \
     HOME="/" \
@@ -70,6 +71,6 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
 
 EXPOSE 8080 8443
 
-USER 1001
+#USER 1001
 ENTRYPOINT [ "/app-entrypoint.sh" ]
 CMD [ "httpd", "-f", "/opt/bitnami/apache/conf/httpd.conf", "-DFOREGROUND" ]
