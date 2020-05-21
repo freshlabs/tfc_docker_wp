@@ -25,6 +25,9 @@ RUN install_packages ca-certificates curl dirmngr gnupg libaudit1 libbsd0 libbz2
 RUN /build/bitnami-user.sh
 RUN /build/install-nami.sh
 
+# Run TFC App Build Script
+RUN /build/setup-tfc_wp.sh
+
 # Setup required system packages
 RUN bitnami-pkg unpack apache-2.4.43-1 --checksum 35ad223096be455ce5d11b6006db6d83b5080802cead122bfa5ebebc9d29da61
 RUN bitnami-pkg unpack php-7.4.5-1 --checksum 4b826aa38a275f5c6c2e752e9ffa5972d61da43094fa4215170475a1690685e8
@@ -85,9 +88,6 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
     WORDPRESS_TABLE_PREFIX="wp_" \
     WORDPRESS_USERNAME="user" \
     INSTALL_FORCE_CLEANUP="no"
-
-# Run TFC App Build Script
-RUN /build/setup-tfc_wp.sh
 
 # Expose Service Ports
 EXPOSE 8080 8443
