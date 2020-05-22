@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Workaround for bitnami docker as root on /bitnami
+chown -R 1001:1001 /bitnami
+
 # Setup Structure
 mkdir -p /bitnami/tfc_wp
 mkdir -p /opt/bitnami/tfc_wp
