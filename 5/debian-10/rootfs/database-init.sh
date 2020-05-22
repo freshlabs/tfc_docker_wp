@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Load up helper functions
 . /opt/bitnami/base/functions
