@@ -93,7 +93,7 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
 EXPOSE 8080 8443
 
 # Exit root and run as unpriviledge user
-USER 1001
+#USER 1001
 
 # Run Entrypoint Script
 ENTRYPOINT [ "/app-entrypoint.sh" ]
