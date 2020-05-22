@@ -5,6 +5,7 @@
 . /opt/bitnami/base/helpers
 
 info "Creating Environment File Structure"
+whoami
 mkdir -p /bitnami/tfc_wp
 mkdir -p /opt/bitnami/tfc_wp
 mkdir -p /opt/bitnami/tfc_wp/tmp/
