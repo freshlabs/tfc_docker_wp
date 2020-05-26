@@ -29,7 +29,9 @@ if [ -d "/bitnami/wordpress" ]; then
   yes | sudo cp -rf /bitnami/wordpress/* "$PERSPATH"
 
   info "Let's now figure out what wordpress version this was so we can set that up the same on the next install"
-  sudo wp core version --path=/opt/bitnami/wordpress/ --allow-root > /bitnami/tfc_wp/.lastversioninstalled
+  sudo rm -f /bitnami/tfc_wp/.lastversioninstalled
+  touch /bitnami/tfc_wp/.lastversioninstalled
+  wp core version --path=/opt/bitnami/wordpress/ --allow-root > /bitnami/tfc_wp/.lastversioninstalled
 
   info "Change bitnami dir owner and permissions to non-root"
   sudo chown -R 1001:1001 /bitnami
