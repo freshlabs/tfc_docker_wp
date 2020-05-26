@@ -19,6 +19,25 @@ WPTEMPDIR="$VOLPATH/tmp";
 WPCONTENTDIR="$PERSPATH/wp-content";
 # Stop defining variables
 
+# This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
+# when we no longer need to migrate older bitnami deployments, this can be removed as well as the 1001 user creation
+if [ -d "/bitnami/wordpress" ]; then
+
+  info "Looks like a previous wordpress install existed here, lets bring that data over to our new setup."
+
+  sudo mkdir -p "$PERSPATH"
+  yes | sudo cp -rf /bitnami/wordpress/* "$PERSPATH"
+
+  info "Let's now figure out what wordpress version this was so we can set that up the same on the next install"
+  wp core version --path=/opt/bitnami/wordpress/ --allow-root > /bitnami/tfc_wp/.lastversioninstalled
+
+  info "Change bitnami dir owner and permissions to non-root"
+  sudo chown -R 1001:1001 /bitnami
+  sudo chmod 775 /bitnami
+
+fi
+# This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
+
 # Are we forcing a fresh start?
 if [ $INSTALL_FORCE_CLEANUP = "yes" ]; then
 
