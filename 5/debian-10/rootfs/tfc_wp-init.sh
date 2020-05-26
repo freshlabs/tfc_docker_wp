@@ -34,7 +34,9 @@ if [ -d "/bitnami/wordpress" ]; then
   sudo touch "$LATESTVERSION"
   sudo chown -R 1001:1001 "$PERSPATH"
   ls -la "$PERSPATH"
-  wp core version --path=/opt/bitnami/wordpress/ --allow-root > "$LATESTVERSION"
+  wp core version --path=/opt/bitnami/wordpress --allow-root > "$LATESTVERSION"
+  sleep 600
+
 
   info "Change bitnami dir owner and permissions to non-root"
   sudo chown -R 1001:1001 /bitnami
