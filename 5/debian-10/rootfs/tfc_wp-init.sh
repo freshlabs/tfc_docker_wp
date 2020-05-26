@@ -32,6 +32,9 @@ if [ -d "/bitnami/wordpress" ]; then
   sudo chown -R 1001:1001 /bitnami
   sudo chmod 775 /bitnami
 
+  info "We should now rename that old wordpress install so we don't re-import it again in the future"
+  mv /bitnami/wordpress /bitnami/bitnami_wp_backup
+
 fi
 # This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
 
