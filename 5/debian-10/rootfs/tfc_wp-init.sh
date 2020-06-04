@@ -112,6 +112,8 @@ PHP
   info "Creating placeholder files"
   touch "$VOLPATH"/.htaccess
 
+  info "Our migration flag value is currently reported as: $MIGRATIONFLAG"
+
   # Are we forcing a fresh start?
   if [ $MIGRATIONFLAG = "no" ]
   then
