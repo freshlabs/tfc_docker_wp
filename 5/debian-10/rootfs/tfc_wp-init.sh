@@ -123,7 +123,7 @@ PHP
     mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
     mv -f "$VOLPATH"/wp-content "$WPCONTENTDIR"
 
-  elif [ $MIGRATIONFLAG = "yes" ] then
+  else [ $MIGRATIONFLAG = "yes" ] then
 
     info "Remove virgin install default files from volatile storage"
     rm -rf "$VOLPATH"/.htaccess
