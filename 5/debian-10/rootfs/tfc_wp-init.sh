@@ -113,7 +113,7 @@ PHP
   touch "$VOLPATH"/.htaccess
 
   # Are we forcing a fresh start?
-  if [ $MIGRATIONFLAG = "no" ]; then
+  if [ $MIGRATIONFLAG = "no" ] then
 
     info "Cleanup the placeholder files before moving them"
     rm -rf "$PERSPATH"/.htaccess "$PERSPATH"/wp-config.php "$WPCONTENTDIR"
@@ -123,7 +123,7 @@ PHP
     mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
     mv -f "$VOLPATH"/wp-content "$WPCONTENTDIR"
 
-  elif [ $MIGRATIONFLAG = "yes" ]; then
+  elif [ $MIGRATIONFLAG = "yes" ] then
 
     info "Remove virgin install default files from volatile storage"
     rm -rf "$VOLPATH"/.htaccess
