@@ -112,13 +112,27 @@ PHP
   info "Creating placeholder files"
   touch "$VOLPATH"/.htaccess
 
-  info "Cleanup the placeholder files before moving them"
-  rm -rf "$PERSPATH"/.htaccess "$PERSPATH"/wp-config.php "$WPCONTENTDIR"
+  info "Our migration flag value is currently reported as: $MIGRATIONFLAG"
 
-  info "Moving some files from Disposable Storage to Persistent Storage"
-  mv -f "$VOLPATH"/.htaccess "$PERSPATH"/.htaccess
-  mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
-  mv -f "$VOLPATH"/wp-content "$WPCONTENTDIR"
+  # Are we forcing a migration start?
+  if [ $MIGRATIONFLAG = "no" ]; then
+
+    info "Cleanup the placeholder files before moving them"
+    rm -rf "$PERSPATH"/.htaccess "$PERSPATH"/wp-config.php "$WPCONTENTDIR"
+
+    info "Moving some files from Disposable Storage to Persistent Storage"
+    mv -f "$VOLPATH"/.htaccess "$PERSPATH"/.htaccess
+    mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
+    mv -f "$VOLPATH"/wp-content "$WPCONTENTDIR"
+
+  elif [ $MIGRATIONFLAG = "yes" ]; then
+
+    info "Remove virgin install default files from volatile storage"
+    rm -rf "$VOLPATH"/.htaccess
+    rm -rf "$VOLPATH"/wp-config.php
+    rm -rf "$VOLPATH"/wp-content
+
+  fi
 
   info "Setup placeholder install file"
   touch "$INSTALLFILE"
