@@ -112,9 +112,14 @@ PHP
   info "Creating placeholder files"
   touch "$VOLPATH"/.htaccess
 
+  info "Setup placeholder install file"
+  touch "$INSTALLFILE"
+
+fi
+
   info "Our migration flag value is currently reported as: $MIGRATIONFLAG"
 
-  # Are we forcing a fresh start?
+  # Are we forcing a migration start?
   if [ $MIGRATIONFLAG = "no" ]
   then
 
@@ -126,7 +131,7 @@ PHP
     mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
     mv -f "$VOLPATH"/wp-content "$WPCONTENTDIR"
 
-  else [ $MIGRATIONFLAG = "yes" ] 
+  elif [ $MIGRATIONFLAG = "yes" ] 
   then
 
     info "Remove virgin install default files from volatile storage"
@@ -135,11 +140,6 @@ PHP
     rm -rf "$VOLPATH"/wp-content
 
   fi
-
-  info "Setup placeholder install file"
-  touch "$INSTALLFILE"
-
-fi
 
 # Everything from this point forward is to be executed regardless of an install or upgrade
 info "Create Symbolic links to Persistent Storage"
