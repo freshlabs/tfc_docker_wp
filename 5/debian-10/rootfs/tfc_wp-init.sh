@@ -129,8 +129,10 @@ PHP
 
     info "Remove virgin install default files from volatile storage"
     rm -rf "$VOLPATH"/.htaccess
-    rm -rf "$VOLPATH"/wp-config.php
     rm -rf "$VOLPATH"/wp-content
+
+    info "Move our new wp-config.php file to perm storage"
+    mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
 
   fi
 
