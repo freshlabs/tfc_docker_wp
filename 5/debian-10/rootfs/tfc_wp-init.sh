@@ -62,6 +62,8 @@ wp core download --locale=en_US --path="$VOLPATH" --force
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
 
+  info "Install file does not exists, so we are going for a full blank install"
+
   # Create the WP Confir File
   info "Creating wp-config on Disposable Storage"
   wp config create --dbhost="${MARIADB_HOST}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force --extra-php <<PHP
@@ -139,6 +141,24 @@ PHP
   info "Setup placeholder install file"
   touch "$INSTALLFILE"
 
+fi
+
+info "This appears to be an existing install, so we are just recovering the existing website"
+
+# We need to evaluate if some files are sym links or files / directories and delete them accordingly
+if [ -f "$VOLPATH/.htaccess" ]; then
+  info "The .htaccess on the vol directory should not exists at this point, we are deleting it."
+  rm -rf "$VOLPATH"/.htaccess
+fi
+
+if [ -f "$VOLPATH/wp-config.php" ]; then
+  info "The wp-config.php on the vol directory should not exists at this point, we are deleting it."
+  rm -rf "$VOLPATH"/.htaccess
+fi
+
+if [ -d "$VOLPATH/wp-content" ]; then
+  info "The wp-content on the vol directory should not exists at this point, we are deleting it."
+  rm -rf "$VOLPATH"/wp-content/
 fi
 
 # Everything from this point forward is to be executed regardless of an install or upgrade
