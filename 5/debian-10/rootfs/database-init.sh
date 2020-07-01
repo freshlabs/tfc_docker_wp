@@ -22,6 +22,16 @@ if [ $INSTALL_FORCE_CLEANUP = "yes" ]; then
 fi
 # Are we forcing a cleanup?
 
+# Are we migrating from another remote db?
+if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
+
+    info "We are migrating from a remote database..."
+    mysqldump --host $MIGRATE_MARIADB_HOST --port $MIGRATE_MARIADB_PORT_NUMBER --user $MIGRATE_MARIADB_ROOT_USER --password=$MIGRATE_MARIADB_ROOT_PASSWORD $MIGRATE_WORDPRESS_DATABASE_NAME > /bitnami/tfc_wp/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql
+    info "Source database has been backed up as /bitnami/tfc_wp/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql"
+
+fi
+# Are we migrating from another remote db?
+
 # Setting up Database ...
 info "Creating Database for this install '$WORDPRESS_DATABASE_NAME' ..."
 mysql_cmd=( $MYSQLBASECMD -e 'CREATE DATABASE IF NOT EXISTS `'$WORDPRESS_DATABASE_NAME'`' )

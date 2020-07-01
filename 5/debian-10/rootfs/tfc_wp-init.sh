@@ -19,6 +19,10 @@ WPTEMPDIR="$VOLPATH/tmp";
 WPCONTENTDIR="$PERSPATH/wp-content";
 # Migration flag (overritten on an actual migration)
 MIGRATIONFLAG="no";
+# Add Custom plugins on a regular run?
+ADDCUSTOMPLUGINS="no";
+# Remove default plugins
+REMOVEDEFAULTPLUGINS="yes"
 # Stop defining variables
 
 # This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
@@ -66,12 +70,12 @@ if [ ! -f "$INSTALLFILE" ]; then
 
   # Create the WP Confir File
   info "Creating wp-config on Disposable Storage"
-  wp config create --dbhost="${MARIADB_HOST}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force --extra-php <<PHP
+  wp config create --dbhost="${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force --extra-php <<PHP
   if ( defined( 'WP_CLI' ) ) {
     \$_SERVER['HTTP_HOST'] = '127.0.0.1';
   }
-  define('WP_SITEURL','https://' . \$_SERVER['HTTP_HOST'] . '/');
-  define('WP_HOME','https://' . \$_SERVER['HTTP_HOST'] . '/');
+  define('WP_SITEURL','http://' . \$_SERVER['HTTP_HOST'] . '/');
+  define('WP_HOME','http://' . \$_SERVER['HTTP_HOST'] . '/');
   // This is a simple function that attempts to keep the current installed wp version available on a helper file
   function wpverinject() {
     if (!file_exists('$LATESTVERSION')) {   
@@ -109,7 +113,7 @@ PHP
 
   # Run WP Install Procedure
   info "Let us run the install now"
-  wp core install --url=localhost --title="Sample Webiste by Jose Lopez" --admin_user=supervisor --admin_password=strongpassword --admin_email=jose@freshlabs.team --path="$VOLPATH" --skip-email
+  wp core install --url=localhost --title="Sample Webiste by Jose Lopez" --admin_user="${WORDPRESS_USERNAME}" --admin_password="${WORDPRESS_PASSWORD}" --admin_email="${WORDPRESS_EMAIL}" --path="$VOLPATH" --skip-email
 
   info "Creating placeholder files"
   touch "$VOLPATH"/.htaccess
@@ -140,6 +144,17 @@ PHP
 
   info "Setup placeholder install file"
   touch "$INSTALLFILE"
+
+  if [ $REMOVEDEFAULTPLUGINS = "yes" ]; then
+    
+    info "Removing default wordpress plugins"
+    rm -rf "$PERSPATH"/wp-content/plugins/akismet/
+    rm -f "$PERSPATH"/wp-content/plugins/hello.php
+    info "Default Wordpress Plugins Removed"
+
+  fi
+
+  ADDCUSTOMPLUGINS="yes"
 
 fi
 
@@ -175,5 +190,40 @@ info "Cleanup files for tidyness"
 rm -rf "$VOLPATH"/wp-config-sample.php
 rm -rf "$VOLPATH"/license.txt
 rm -rf "$VOLPATH"/readme.html
+
+# Consider importing SQL file if conditions met
+if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
+
+  info "Found DB Import file, importing it now..."
+  wp db import $PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql --path="$VOLPATH"
+
+  info "Setup placeholder db imported file (.migratedsql)"
+  touch "$PERSPATH/.migratedsql"
+
+fi
+# Consider importing SQL file if conditions met
+
+if [ $ADDCUSTOMPLUGINS = "yes" ]; then
+  # this is prime time to setup additional plugins (only on first install)
+  info "Install custom or additional plugins ..."
+
+  # Install Fresh Connect Plugin
+  info "Installing Fresh Connect"
+  wp plugin install fresh-connect --force --activate --path="$VOLPATH"
+
+  # Install Google Pagespeed
+  info "Installing Google Pagespeed"
+  wp plugin install google-pagespeed-insights --force --activate --path="$VOLPATH"
+
+  info "Install custom or additional plugins completed"
+  # this is prime time to setup additional plugins (only on first install)
+
+  # Grab FCK's 
+  info "Now grabbing FCK"
+  echo "Fresh Connect Key >>"
+  wp option get fp_connection_keys --path="$VOLPATH"
+  echo "<< Fresh Connect Key"
+  # Grab FCK's 
+fi
 
 info "We done dawg... let's get the party started >.<"

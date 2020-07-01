@@ -8,7 +8,7 @@ print_welcome_page
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "httpd" ]]; then
     . /apache-init.sh
-    nami_initialize apache php
+    nami_initialize apache mysql-client php
 
     info "Run DB Setup Script"
     ./database-init.sh
