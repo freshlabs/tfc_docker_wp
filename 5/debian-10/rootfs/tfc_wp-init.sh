@@ -74,8 +74,8 @@ if [ ! -f "$INSTALLFILE" ]; then
   if ( defined( 'WP_CLI' ) ) {
     \$_SERVER['HTTP_HOST'] = '127.0.0.1';
   }
-  define('WP_SITEURL','http://' . \$_SERVER['HTTP_HOST'] . '/');
-  define('WP_HOME','http://' . \$_SERVER['HTTP_HOST'] . '/');
+  define('WP_SITEURL','https://' . \$_SERVER['HTTP_HOST'] . '/');
+  define('WP_HOME','https://' . \$_SERVER['HTTP_HOST'] . '/');
   // This is a simple function that attempts to keep the current installed wp version available on a helper file
   function wpverinject() {
     if (!file_exists('$LATESTVERSION')) {   
