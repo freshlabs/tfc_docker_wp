@@ -194,6 +194,13 @@ rm -rf "$VOLPATH"/readme.html
 # Consider importing SQL file if conditions met
 if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
 
+  # we will need to force recreate the wpconfig file
+  info "Sinve we've migrated to a local environment we now need to fix our wp-config file"
+  wp config set DB_NAME "${WORDPRESS_DATABASE_NAME}" --path="$VOLPATH"
+  wp config set DB_USER "${WORDPRESS_DATABASE_USER}" --path="$VOLPATH"
+  wp config set DB_PASSWORD "${WORDPRESS_DATABASE_PASSWORD}" --path="$VOLPATH"
+  wp config set DB_HOST "${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --path="$VOLPATH"
+
   info "Found DB Import file, importing it now..."
   wp db import $PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql --path="$VOLPATH"
 
