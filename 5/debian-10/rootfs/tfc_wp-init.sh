@@ -42,7 +42,7 @@ if [ -d "/bitnami/wordpress" ]; then
   mv /bitnami/wordpress /bitnami/bitnami_wp_backup
 
   info "Reset MariaDB (local DB) files permissions"
-  sudo chown -R mysql:mysql /bitnami/data
+  sudo chown -R mysql:mysql /bitnami/mariadb
 
   MIGRATIONFLAG="yes";
 
