@@ -4,6 +4,7 @@
 useradd -ms /bin/bash 1001
 usermod -g root 1001
 echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
+# remove or comment out this block once everything has been migrated
 
 # Setup Structure
 mkdir -p /bitnami/tfc_wp
