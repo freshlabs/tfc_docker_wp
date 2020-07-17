@@ -119,3 +119,4 @@ CMD [ "httpd", "-f", "/opt/bitnami/apache/conf/httpd.conf", "-DFOREGROUND" ]
 # Connect to the docker SSH: 
 # docker exec -it containerid bash
 # docker exec -it wordpress bash
+# docker exec -it mariadb bash
