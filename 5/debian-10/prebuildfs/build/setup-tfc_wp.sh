@@ -1,18 +1,22 @@
 #!/bin/bash
 
 # Create non-root user (this is only required for migrating existing bitnami images, can otherwise be removed)
+echo 'Running commands as:';
+whoami
 useradd -ms /bin/bash 1001
 usermod -g root 1001
 echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
 # remove or comment out this block once everything has been migrated
 
 # Setup Structure
+echo 'Create foundation dirs';
 mkdir -p /bitnami/tfc_wp
 mkdir -p /opt/bitnami/tfc_wp
 mkdir -p /opt/bitnami/tfc_wp/tmp/
 mkdir -p /bitnami/tfc_wp/.wp-cli/cache
 
 # Setup Permissions
+echo 'Setup basic permissions';
 chmod 775 /opt/bitnami/tfc_wp
 chmod 775 /bitnami/tfc_wp
 chown -R 1001 /opt/bitnami/tfc_wp
