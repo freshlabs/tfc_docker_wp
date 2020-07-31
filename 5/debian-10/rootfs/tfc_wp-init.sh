@@ -41,6 +41,9 @@ if [ -d "/bitnami/wordpress" ]; then
   info "We should now rename that old wordpress install so we don't re-import it again in the future"
   mv /bitnami/wordpress /bitnami/bitnami_wp_backup
 
+  info "Re-Setup placeholder install file on migrated wordpress files (this is mainly a precaution)"
+  touch "$INSTALLFILE"
+
   MIGRATIONFLAG="yes";
 
 fi
