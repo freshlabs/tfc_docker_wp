@@ -18,7 +18,7 @@ if [[ -d "/opt/bitnami/apache/certs" ]]; then
     #rm -rf /opt/bitnami/apache/conf/bitnami/certs
     #ln -sf /opt/bitnami/apache/certs /opt/bitnami/apache/conf/bitnami/certs
     warn "I will ignore your previous apache conf file... moving on"
-elif [ "$(ls -A /certs 2>/dev/null)" ]; then
+#elif [ "$(ls -A /certs 2>/dev/null)" ]; then
     info "Mounting certificates files from /certs..."
     rm -rf /opt/bitnami/apache/conf/bitnami/certs
     ln -sf /certs /opt/bitnami/apache/conf/bitnami/certs
