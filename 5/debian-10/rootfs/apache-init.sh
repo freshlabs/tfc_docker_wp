@@ -13,10 +13,11 @@ fi
 
 # Mount certificate files
 if [[ -d "/opt/bitnami/apache/certs" ]]; then
-    warn "The directory '/opt/bitnami/apache/certs' was externally mounted. This is a legacy configuration and will be deprecated soon. Please mount certificate files at '/opt/bitnami/apache/conf/bitnami/certs' instead. Find an example at: https://github.com/bitnami/bitnami-docker-apache#using-custom-ssl-certificates"
-    warn "Restoring certificates at '/opt/bitnami/apache/certs' to '/opt/bitnami/apache/conf/bitnami/certs'..."
-    rm -rf /opt/bitnami/apache/conf/bitnami/certs
-    ln -sf /opt/bitnami/apache/certs /opt/bitnami/apache/conf/bitnami/certs
+    #warn "The directory '/opt/bitnami/apache/certs' was externally mounted. This is a legacy configuration and will be deprecated soon. Please mount certificate files at '/opt/bitnami/apache/conf/bitnami/certs' instead. Find an example at: https://github.com/bitnami/bitnami-docker-apache#using-custom-ssl-certificates"
+    #warn "Restoring certificates at '/opt/bitnami/apache/certs' to '/opt/bitnami/apache/conf/bitnami/certs'..."
+    #rm -rf /opt/bitnami/apache/conf/bitnami/certs
+    #ln -sf /opt/bitnami/apache/certs /opt/bitnami/apache/conf/bitnami/certs
+    warn "I will ignore your previous apache conf file... moving on"
 elif [ "$(ls -A /certs 2>/dev/null)" ]; then
     info "Mounting certificates files from /certs..."
     rm -rf /opt/bitnami/apache/conf/bitnami/certs
