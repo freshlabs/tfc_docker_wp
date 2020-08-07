@@ -113,7 +113,7 @@ PHP
 
   # Run WP Install Procedure
   info "Let us run the install now"
-  wp core install --url=localhost --title="Sample Webiste by Jose Lopez" --admin_user="${WORDPRESS_USERNAME}" --admin_password="${WORDPRESS_PASSWORD}" --admin_email="${WORDPRESS_EMAIL}" --path="$VOLPATH" --skip-email
+  wp core install --url=localhost --title="${WORDPRESS_BLOG_NAME}" --admin_user="${WORDPRESS_USERNAME}" --admin_password="${WORDPRESS_PASSWORD}" --admin_email="${WORDPRESS_EMAIL}" --path="$VOLPATH" --skip-email
 
   info "Creating placeholder files"
   touch "$VOLPATH"/.htaccess
