@@ -109,14 +109,3 @@ ENTRYPOINT [ "/app-entrypoint.sh" ]
 
 # Run Apache service to start listening for requests
 CMD [ "httpd", "-f", "/opt/bitnami/apache/conf/httpd.conf", "-DFOREGROUND" ]
-
-# Build the Docker Image: 
-# docker build --pull --rm -f "5\debian-10\Dockerfile" -t tfc_docker_wp:dev "5\debian-10"
-
-# Start the Container based on the docker-compose.json file: 
-# docker-compose up
-
-# Connect to the docker SSH: 
-# docker exec -it containerid bash
-# docker exec -it wordpress bash
-# docker exec -it mariadb bash
