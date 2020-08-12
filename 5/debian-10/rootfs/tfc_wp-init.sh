@@ -61,7 +61,7 @@ export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
 
 # Download WP Core files to disposable storage
 info "Downloading WP to Disposable Storage"
-wp core download --locale=en_US --path="$VOLPATH" --force
+wp core download --version=5.4.2 --locale=en_US --path="$VOLPATH" --force
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
