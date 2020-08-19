@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Create non-root user (this is only required for migrating existing bitnami images, can otherwise be removed)
-#useradd -ms /bin/bash 1001
-#usermod -g root 1001
-#echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
+useradd -ms /bin/bash 1001
+usermod -g root 1001
+echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
 # remove or comment out this block once everything has been migrated
 
 # Setup Structure
