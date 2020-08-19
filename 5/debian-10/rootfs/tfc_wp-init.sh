@@ -61,7 +61,8 @@ export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
 
 # Download WP Core files to disposable storage
 info "Downloading WP to Disposable Storage"
-wp core download --version=5.4.2 --locale=en_US --path="$VOLPATH" --force
+VERSIONONFILE=awk /./ "$LATESTVERSION"
+wp core download --version="$VERSIONONFILE" --locale=en_US --path="$VOLPATH" --force
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
@@ -78,16 +79,19 @@ if [ ! -f "$INSTALLFILE" ]; then
   define('WP_HOME','https://' . \$_SERVER['HTTP_HOST'] . '/');
   // This is a simple function that attempts to keep the current installed wp version available on a helper file
   function wpverinject() {
-    if (!file_exists('$LATESTVERSION')) {   
+
+    if (!file_exists('$LATESTVERSION')) {
       file_put_contents('$LATESTVERSION', '0.0.0'); // Dummy value
-      file_put_contents('$LATESTVERSION'.'.md5', '1.1.1'); // Dummy value
     }
-    // Compare MD5
-    if(md5_file('$LATESTVERSION') != file_get_contents('$LATESTVERSION'.'.md5')) {
-      file_put_contents('$LATESTVERSION', shell_exec('wp core version --path=$VOLPATH'));
-      \$md5file = md5_file('$LATESTVERSION');
-      file_put_contents('$LATESTVERSION'.'.md5', \$md5file);
+
+    // Set placeholders
+    $wp_v_installed = shell_exec('wp core version --path=/opt/bitnami/tfc_wp');
+    $wp_v_onfile    = file_get_contents('$LATESTVERSION');
+
+    if($wp_v_installed != $wp_v_onfile) {
+      file_put_contents('$LATESTVERSION', $wp_v_installed);
     }
+
   }
 PHP
 
