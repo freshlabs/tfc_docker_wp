@@ -60,7 +60,7 @@ info "Set wp-cli cache dir at persistent storage"
 export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
 
 # Download WP Core files to disposable storage
-VERSIONONFILE=(awk "/./" "$LATESTVERSION")
+VERSIONONFILE=(cat "$LATESTVERSION")
 info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
 wp core download --version="$VERSIONONFILE" --locale=en_US --path="$VOLPATH" --force
 
