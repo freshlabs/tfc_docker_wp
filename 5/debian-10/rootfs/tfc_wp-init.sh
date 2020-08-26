@@ -60,9 +60,18 @@ info "Set wp-cli cache dir at persistent storage"
 export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
 
 # Download WP Core files to disposable storage
-VERSIONONFILE=$(grep . $LATESTVERSION)
-info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
-wp core download --version="$VERSIONONFILE" --locale=en_US --path="$VOLPATH" --force
+if [ ! -f "$LATESTVERSION" ]; then
+
+  VERSIONONFILE="5.5"
+
+else
+
+  VERSIONONFILE=$(grep . $LATESTVERSION)
+
+fi
+
+  info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
+  wp core download --version="$VERSIONONFILE" --locale=en_US --path="$VOLPATH" --force
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
@@ -85,11 +94,11 @@ if [ ! -f "$INSTALLFILE" ]; then
     }
 
     // Set placeholders
-    $wp_v_installed = shell_exec('wp core version --path=/opt/bitnami/tfc_wp');
-    $wp_v_onfile    = file_get_contents('$LATESTVERSION');
+    \$wp_v_installed = shell_exec('wp core version --path=/opt/bitnami/tfc_wp');
+    \$wp_v_onfile    = file_get_contents('$LATESTVERSION');
 
-    if($wp_v_installed != $wp_v_onfile) {
-      file_put_contents('$LATESTVERSION', $wp_v_installed);
+    if(\$wp_v_installed != \$wp_v_onfile) {
+      file_put_contents('$LATESTVERSION', \$wp_v_installed);
     }
 
   }
@@ -117,6 +126,7 @@ PHP
 
   # Run WP Install Procedure
   info "Let us run the install now"
+  #wp core install --url=localhost --title="aaaa" --admin_user="momon" --admin_password="1234" --admin_email="redstormj@gmail.com" --path="/opt/bitnami/tfc_wp" --skip-email
   wp core install --url=localhost --title="${WORDPRESS_BLOG_NAME}" --admin_user="${WORDPRESS_USERNAME}" --admin_password="${WORDPRESS_PASSWORD}" --admin_email="${WORDPRESS_EMAIL}" --path="$VOLPATH" --skip-email
 
   info "Creating placeholder files"
