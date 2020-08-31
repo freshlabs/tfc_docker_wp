@@ -1,4 +1,4 @@
-FROM bitnami/wordpress:5.4.0
+FROM bitnami/wordpress:5.2.0-debian-9-r1
 LABEL maintainer "Bitnami <containers@bitnami.com>"
 
 # Install custom or additional server modules
