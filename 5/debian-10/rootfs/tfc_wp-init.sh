@@ -190,6 +190,13 @@ if [ -d "$VOLPATH/wp-content" ]; then
   rm -rf "$VOLPATH"/wp-content/
 fi
 
+# We need to check for wordfence and persist its required root files
+if [ -f "$VOLPATH/wordfence-waf.php" ]; then
+  info "The wordfence-waf.php on the vol directory should not exists at this point, we are persisting it and creating a symbolic link instead."
+  mv "$VOLPATH"/wordfence-waf.php "$PERSPATH"/wordfence-waf.php
+  ln -nsf "$PERSPATH"/wordfence-waf.php "$VOLPATH"/wordfence-waf.php
+fi
+
 # Everything from this point forward is to be executed regardless of an install or upgrade
 info "Create Symbolic links to Persistent Storage"
 ln -nsf "$PERSPATH"/.htaccess "$VOLPATH"/.htaccess
