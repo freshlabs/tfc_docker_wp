@@ -101,6 +101,19 @@ if [ ! -f "$INSTALLFILE" ]; then
       file_put_contents('$LATESTVERSION', \$wp_v_installed);
     }
 
+    if (file_exists('$VOLPATH/wordfence-waf.php') && is_link('$VOLPATH/wordfence-waf.php') == false) {
+      shell_exec('mv $VOLPATH/wordfence-waf.php $PERSPATH/wordfence-waf.php');
+      symlink('$PERSPATH/wordfence-waf.php', '$VOLPATH/wordfence-waf.php');
+    }
+
+
+if [ -f "$VOLPATH/wordfence-waf.php" ]; then
+  info "The wordfence-waf.php on the vol directory should not exists at this point, we are persisting it and creating a symbolic link instead."
+  mv "$VOLPATH"/wordfence-waf.php "$PERSPATH"/wordfence-waf.php
+  ln -nsf "$PERSPATH"/wordfence-waf.php "$VOLPATH"/wordfence-waf.php
+fi
+
+
   }
 PHP
 
@@ -190,14 +203,13 @@ if [ -d "$VOLPATH/wp-content" ]; then
   rm -rf "$VOLPATH"/wp-content/
 fi
 
+# Everything from this point forward is to be executed regardless of an install or upgrade
 # We need to check for wordfence and persist its required root files
-if [ -f "$VOLPATH/wordfence-waf.php" ]; then
-  info "The wordfence-waf.php on the vol directory should not exists at this point, we are persisting it and creating a symbolic link instead."
-  mv "$VOLPATH"/wordfence-waf.php "$PERSPATH"/wordfence-waf.php
+if [ -f "$PERSPATH/wordfence-waf.php" ]; then
+  info "The wordfence-waf.php on the perm directory is persisted, we need to create a symlink to it."
   ln -nsf "$PERSPATH"/wordfence-waf.php "$VOLPATH"/wordfence-waf.php
 fi
 
-# Everything from this point forward is to be executed regardless of an install or upgrade
 info "Create Symbolic links to Persistent Storage"
 ln -nsf "$PERSPATH"/.htaccess "$VOLPATH"/.htaccess
 ln -nsf "$PERSPATH"/wp-config.php "$VOLPATH"/wp-config.php
