@@ -106,14 +106,6 @@ if [ ! -f "$INSTALLFILE" ]; then
       symlink('$PERSPATH/wordfence-waf.php', '$VOLPATH/wordfence-waf.php');
     }
 
-
-if [ -f "$VOLPATH/wordfence-waf.php" ]; then
-  info "The wordfence-waf.php on the vol directory should not exists at this point, we are persisting it and creating a symbolic link instead."
-  mv "$VOLPATH"/wordfence-waf.php "$PERSPATH"/wordfence-waf.php
-  ln -nsf "$PERSPATH"/wordfence-waf.php "$VOLPATH"/wordfence-waf.php
-fi
-
-
   }
 PHP
 
