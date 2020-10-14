@@ -80,7 +80,25 @@ if [ ! -f "$INSTALLFILE" ]; then
 
   # Create the WP Confir File
   info "Creating wp-config on Disposable Storage"
-  wp config create --dbhost="${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force
+  wp config create --dbhost="${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force --extra-php <<PHP
+  if ( defined( 'WP_CLI' ) ) {
+    \$_SERVER['HTTP_HOST'] = '127.0.0.1';
+  }
+  define('WP_SITEURL','https://' . \$_SERVER['HTTP_HOST'] . '/');
+  define('WP_HOME','https://' . \$_SERVER['HTTP_HOST'] . '/');
+  // This is a simple function that attempts to keep the current installed wp version available on a helper file
+  function wpverinject() {
+    if (!file_exists('$LATESTVERSION')) {
+      file_put_contents('$LATESTVERSION', '0.0.0'); // Dummy value
+    }
+    // Set placeholders
+    \$wp_v_installed = shell_exec('wp core version --path=/opt/bitnami/tfc_wp');
+    \$wp_v_onfile    = file_get_contents('$LATESTVERSION');
+    if(\$wp_v_installed != \$wp_v_onfile) {
+      file_put_contents('$LATESTVERSION', \$wp_v_installed);
+    }
+  }
+PHP
 
   # Set some flags on wp-config file
   info "Making aditional adjustments to wp-config.php file"
@@ -99,8 +117,8 @@ if [ ! -f "$INSTALLFILE" ]; then
   sed -i "\$aif ( \!defined( 'WP_CLI' ) ) \{\n\/\/  Disable pingback.ping xmlrpc method to prevent WordPress from participating in DDoS attacks\n\/\/  More info at: https://wiki.bitnami.com/Applications/Bitnami_WordPress#XMLRPC_and_Pingback\n\n// remove x-pingback HTTP header\nadd_filter('wp_headers', function(\$headers) \{\n            unset(\$headers['X-Pingback']);\n            return \$headers;\n           \});\n// disable pingbacks\nadd_filter( 'xmlrpc_methods', function( \$methods ) \{\n             unset( \$methods['pingback.ping'] );\n             return \$methods;\n           \});\n}" "$VOLPATH"/wp-config.php
 
   # Append some additional data to wp-config file
-#  info "Append the custom wp version file generator"
-#  sed -i "\$awpverinject();" "$VOLPATH"/wp-config.php
+  info "Append the custom wp version file generator"
+  sed -i "\$awpverinject();" "$VOLPATH"/wp-config.php
 
   # Run WP Install Procedure
   info "Let us run the install now"
@@ -168,13 +186,14 @@ if [ -d "$VOLPATH/wp-content" ]; then
   rm -rf "$VOLPATH"/wp-content/
 fi
 
-# Everything from this point forward is to be executed regardless of an install or upgrade
 # We need to check for wordfence and persist its required root files
-if [ -f "$PERSPATH/wordfence-waf.php" ]; then
-  info "The wordfence-waf.php on the perm directory is persisted, we need to create a symlink to it."
+if [ -f "$VOLPATH/wordfence-waf.php" ]; then
+  info "The wordfence-waf.php on the vol directory should not exists at this point, we are persisting it and creating a symbolic link instead."
+  mv "$VOLPATH"/wordfence-waf.php "$PERSPATH"/wordfence-waf.php
   ln -nsf "$PERSPATH"/wordfence-waf.php "$VOLPATH"/wordfence-waf.php
 fi
 
+# Everything from this point forward is to be executed regardless of an install or upgrade
 info "Create Symbolic links to Persistent Storage"
 ln -nsf "$PERSPATH"/.htaccess "$VOLPATH"/.htaccess
 ln -nsf "$PERSPATH"/wp-config.php "$VOLPATH"/wp-config.php
@@ -188,19 +207,6 @@ info "Cleanup files for tidyness"
 rm -rf "$VOLPATH"/wp-config-sample.php
 rm -rf "$VOLPATH"/license.txt
 rm -rf "$VOLPATH"/readme.html
-
-info "Make more changes to wp-config file (add custom function)"
-yes | cp -rf /freshlabs.php "$VOLPATH"/freshlabs.php
-
-info "Delete old wpverinject function"
-sed -i '/wpverinject();/d' "$VOLPATH"/wp-config.php
-sed -i "/  if ( defined( 'WP_CLI' ) ) {/,+29d" "$VOLPATH"/wp-config.php
-
-info "Delete previous require/freshlabs command"
-sed -i "/freshlabs.php/d" "$VOLPATH"/wp-config.php
-
-info "Add new require/freshlabs command"
-sed -i "\$arequire('"$VOLPATH"/freshlabs.php');" "$VOLPATH"/wp-config.php
 
 # Consider importing SQL file if conditions met
 if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
@@ -243,9 +249,5 @@ if [ $ADDCUSTOMPLUGINS = "yes" ]; then
   echo "<< Fresh Connect Key"
   # Grab FCK's 
 fi
-
-info "Make sure both Wordpress and DB are up to date"
-wp core update --path="$VOLPATH"
-wp core update-db --path="$VOLPATH"
 
 info "We done dawg... let's get the party started >.<"
