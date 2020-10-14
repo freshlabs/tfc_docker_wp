@@ -244,4 +244,8 @@ if [ $ADDCUSTOMPLUGINS = "yes" ]; then
   # Grab FCK's 
 fi
 
+info "Make sure both Wordpress and DB are up to date"
+wp core update --path="$VOLPATH"
+wp core update-db --path="$VOLPATH"
+
 info "We done dawg... let's get the party started >.<"
