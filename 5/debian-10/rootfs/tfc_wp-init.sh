@@ -241,7 +241,7 @@ if [ $ADDCUSTOMPLUGINS = "yes" ]; then
 fi
 
 info "Make sure both Wordpress and DB are up to date"
-wp core update --path="$VOLPATH"
+wp core update --version="$VERSIONONFILE" --path="$VOLPATH"
 wp core update-db --path="$VOLPATH"
 
 info "We done dawg... let's get the party started >.<"
