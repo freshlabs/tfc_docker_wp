@@ -189,14 +189,14 @@ info "Make more changes to wp-config file (add custom function)"
 yes | cp -rf /freshlabs.php "$VOLPATH"/freshlabs.php
 
 info "Delete old wpverinject function"
-sed -i '/wpverinject();/d' "$VOLPATH"/wp-config.php
-sed -i -n '/$table_prefix =/{p; :a; N; /WP_DEBUG/!ba; s/.*\n//}; p' "$VOLPATH"/wp-config.php
+sed -i --follow-symlinks '/wpverinject();/d' "$VOLPATH"/wp-config.php
+sed -i --follow-symlinks -n '/$table_prefix =/{p; :a; N; /WP_DEBUG/!ba; s/.*\n//}; p' "$VOLPATH"/wp-config.php
 
 info "Delete previous require/freshlabs command"
-sed -i "/freshlabs.php/d" "$VOLPATH"/wp-config.php
+sed -i --follow-symlinks "/freshlabs.php/d" "$VOLPATH"/wp-config.php
 
 info "Add new require/freshlabs command"
-sed -i "\$arequire('"$VOLPATH"/freshlabs.php');" "$VOLPATH"/wp-config.php
+sed -i --follow-symlinks "\$arequire('"$VOLPATH"/freshlabs.php');" "$VOLPATH"/wp-config.php
 
 # Consider importing SQL file if conditions met
 if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
