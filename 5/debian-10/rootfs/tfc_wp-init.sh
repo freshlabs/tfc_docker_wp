@@ -191,10 +191,14 @@ rm -rf "$VOLPATH"/readme.html
 
 info "Make more changes to wp-config file (add custom function)"
 yes | cp -rf /freshlabs.php "$VOLPATH"/freshlabs.php
+
 info "Delete old wpverinject function"
 sed -i '/wpverinject();/d' "$VOLPATH"/wp-config.php
+sed -i "/  if ( defined( 'WP_CLI' ) ) {/,+29d" "$VOLPATH"/wp-config.php
+
 info "Delete previous require/freshlabs command"
 sed -i "/freshlabs.php/d" "$VOLPATH"/wp-config.php
+
 info "Add new require/freshlabs command"
 sed -i "\$arequire('"$VOLPATH"/freshlabs.php');" "$VOLPATH"/wp-config.php
 
