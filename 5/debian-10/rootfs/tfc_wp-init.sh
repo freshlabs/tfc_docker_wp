@@ -155,7 +155,7 @@ fi
 
 if [ -f "$VOLPATH/wp-config.php" ]; then
   info "The wp-config.php on the vol directory should not exists at this point, we are deleting it."
-  rm -rf "$VOLPATH"/.htaccess
+  rm -rf "$VOLPATH"/wp-config.php
 fi
 
 if [ -d "$VOLPATH/wp-content" ]; then
