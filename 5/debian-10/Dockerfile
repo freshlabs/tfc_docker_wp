@@ -7,7 +7,7 @@ LABEL maintainer="jose@freshlabs.team" \
       sources.OS="bitnami/minideb" \
       sources.OS.release="buster" \
       sources.APP="Wordpress" \
-      sources.APP.version="5.5.1" \
+      sources.APP.version="5.5.2" \
       docker.image.version="dev"
 
 # Setup required bitnami Environmental Variables
@@ -29,9 +29,9 @@ RUN /build/install-nami.sh
 RUN /build/setup-tfc_wp.sh
 
 # Setup required system packages
-RUN bitnami-pkg install php-7.4.11-2 --checksum aabc290a13f5bee0a31bd9edf504fc025d51a7b95abeff9edcef3cf4d90e3393
-RUN bitnami-pkg unpack apache-2.4.46-2 --checksum 8d591562d804902c986f59f18bbea5e47289f4cbfb364c13862d4b9df557e0f4
-RUN bitnami-pkg install wp-cli-2.4.0-0 --checksum 8095bdd2f96a137cb3f54836ad9deb90510b0927472e532f41e1708345432230
+RUN bitnami-pkg install php-7.4.11-4 --checksum bb6b4cfe19cad2312aeb2606994c2ad403a671ed78b4e49276a206a75e89c491
+RUN bitnami-pkg unpack apache-2.4.46-3 --checksum 07991412bb24fc8493228f4bd67b28a77e011242971dcdd687a5d2113ac89bc9
+RUN bitnami-pkg install wp-cli-2.4.0-2 --checksum 33c3b53e87e9e433291ac3511e68263c80b43aa4de3dead9502934f506b7f2e6
 RUN bitnami-pkg unpack mysql-client-10.3.25-0 --checksum 12528e33966094535a302d557eca3eb1ae7d5c7b8fff4b9e70d96cafedbb5341
 RUN bitnami-pkg install libphp-7.4.11-1 --checksum 2a552ec9133bfeea17ee4fa40976499165cc3c6c89e00d483063df083abe4b13
 RUN bitnami-pkg install tini-0.19.0-1 --checksum 9b1f1c095944bac88a62c1b63f3bff1bb123aa7ccd371c908c0e5b41cec2528d
