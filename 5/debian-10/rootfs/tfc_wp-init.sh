@@ -62,7 +62,7 @@ export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
 # Download WP Core files to disposable storage
 if [ ! -f "$LATESTVERSION" ]; then
 
-  VERSIONONFILE="5.5.3"
+  VERSIONONFILE="5.5.2"
 
 else
 
