@@ -68,6 +68,12 @@ else
 
   VERSIONONFILE=$(grep . $LATESTVERSION)
 
+  if [ "$VERSIONONFILE" = "5.5.3-alpha-49449" ]; then
+
+  VERSIONONFILE="5.5.3"
+
+  fi
+
 fi
 
   info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
