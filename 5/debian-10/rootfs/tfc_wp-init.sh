@@ -85,7 +85,7 @@ if [ ! -f "$INSTALLFILE" ]; then
   info "Install file does not exists, so we are going for a full blank install"
 
   # Create the WP Confir File
-  info "Creating wp-config on Disposable Storage"
+  info "Creating wp-config on Disposable Storage (placeholder)"
   wp config create --dbhost="${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force
 
   # Set some flags on wp-config file
