@@ -1,3 +1,8 @@
 
 docker-compose.yml
 5/debian-10/rootfs/tfc_wp-init.bak
+.idea/codeStyles/codeStyleConfig.xml
+.idea/modules.xml
+.idea/tfc_docker_wp.iml
+.idea/vcs.xml
+.idea/workspace.xml
