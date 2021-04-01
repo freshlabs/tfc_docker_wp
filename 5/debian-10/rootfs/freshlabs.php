@@ -17,7 +17,7 @@ function runFreshCloudCode()
     }
 
     // Set placeholders
-    $wp_v_installed = get_bloginfo( 'version' );
+    $wp_v_installed = get_bloginfo('version');
     $wp_v_onfile = file_get_contents('/bitnami/tfc_wp/.lastversioninstalled');
 
     if ($wp_v_installed != $wp_v_onfile) {
@@ -31,5 +31,7 @@ function runFreshCloudCode()
 
 }
 
-add_action('activated_plugin', 'runFreshCloudCode');
-add_action('upgrader_process_complete', 'runFreshCloudCode');
+if (function_exists('add_action')) {
+    add_action('activated_plugin', 'runFreshCloudCode');
+    add_action('upgrader_process_complete', 'runFreshCloudCode');
+}
