@@ -62,7 +62,7 @@ export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
 # Download WP Core files to disposable storage
 if [ ! -f "$LATESTVERSION" ]; then
 
-  VERSIONONFILE="5.5.2"
+  VERSIONONFILE="5.7"
 
 else
 
@@ -84,7 +84,7 @@ if [ ! -f "$INSTALLFILE" ]; then
 
   info "Install file does not exists, so we are going for a full blank install"
 
-  # Create the WP Confir File
+  # Create the WP Config File
   info "Creating wp-config on Disposable Storage (placeholder)"
   wp config create --dbhost="${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$VOLPATH" --force
 
