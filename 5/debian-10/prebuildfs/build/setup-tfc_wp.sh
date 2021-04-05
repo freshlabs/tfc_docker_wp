@@ -6,17 +6,24 @@
 #echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
 # remove or comment out this block once everything has been migrated
 
-# Setup Structure
-mkdir -p /bitnami/tfc_wp
-mkdir -p /opt/bitnami/tfc_wp
-mkdir -p /bitnami/tfc_wp/tmp
-mkdir -p /bitnami/tfc_wp/.wp-cli/cache
+# Setup folders and permissions
 
-# Setup Permissions
-chmod 775 /opt/bitnami/tfc_wp
+mkdir -p /bitnami/tfc_wp
 chmod 775 /bitnami/tfc_wp
-chmod 775 /bitnami/tfc_wp/tmp
-chown -R 1001 /opt/bitnami/tfc_wp
 chown -R 1001 /bitnami/tfc_wp
+
+mkdir -p /bitnami/tfc_wp/tmp
+chmod 775 /bitnami/tfc_wp/tmp
+chown -R 1001 /bitnami/tfc_wp/tmp
+
+mkdir -p /bitnami/tfc_wp/.wp-cli/cache
+chmod 775 /bitnami/tfc_wp/.wp-cli
+chmod 775 /bitnami/tfc_wp/.wp-cli/cache
+chown -R 1001:1001 /bitnami/tfc_wp
 chown -R 1001:1001 /bitnami/tfc_wp/.wp-cli
+
+mkdir -p /opt/bitnami/tfc_wp
+chmod 775 /opt/bitnami/tfc_wp
+chown -R 1001 /opt/bitnami/tfc_wp
+
 
