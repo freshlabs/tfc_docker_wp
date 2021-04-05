@@ -25,9 +25,6 @@ RUN install_packages ca-certificates curl dirmngr gnupg libaudit1 libbsd0 libbz2
 RUN /build/bitnami-user.sh
 RUN /build/install-nami.sh
 
-# Run TFC App Build Script
-RUN /build/setup-tfc_wp.sh
-
 # Setup required system packages
 RUN bitnami-pkg install php-7.4.11-4 --checksum bb6b4cfe19cad2312aeb2606994c2ad403a671ed78b4e49276a206a75e89c491
 RUN bitnami-pkg unpack apache-2.4.46-3 --checksum 07991412bb24fc8493228f4bd67b28a77e011242971dcdd687a5d2113ac89bc9
@@ -102,6 +99,9 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
 
 # Expose Service Ports
 EXPOSE 8080 8443
+
+# Setup folders and permissions
+RUN /build/setup-tfc_wp.sh
 
 # Exit root and run as unpriviledge user
 USER 1001

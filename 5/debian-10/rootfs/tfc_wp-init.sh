@@ -26,17 +26,6 @@ ADDCUSTOMPLUGINS="no";
 REMOVEDEFAULTPLUGINS="yes"
 # Stop defining variables
 
-
-# Persistent/non-persistent has been removed. This will sync the two
-info "Merging old persistent and disposable directories."
-info "Copying all files to new root directory"
-cp -rf "$OLDROOTPATH" "$ROOTPATH"
-
-info "Deleting files from old directory"
-rm -rf "$OLDROOTPATH"/*
-
-info "Finished merging persistent and disposable directories."
-
 # Are we forcing a fresh start?
 if [ $INSTALL_FORCE_CLEANUP = "yes" ]; then
 
