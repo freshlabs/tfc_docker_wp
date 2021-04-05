@@ -9,7 +9,7 @@
 # Setup Structure
 mkdir -p /bitnami/tfc_wp
 mkdir -p /opt/bitnami/tfc_wp
-mkdir -p /opt/bitnami/tfc_wp/tmp/
+mkdir -p /bitnami/tfc_wp/tmp/
 mkdir -p /bitnami/tfc_wp/.wp-cli/cache
 
 # Setup Permissions
