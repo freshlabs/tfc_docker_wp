@@ -2,8 +2,8 @@
 FROM docker.io/bitnami/minideb:buster
 
 # Setup Labels
-LABEL maintainer="jose@freshlabs.team" \
-      author="Jose Lopez" \
+LABEL maintainer="team@freshlabs.group" \
+      author="Fresh Labs" \
       sources.OS="bitnami/minideb" \
       sources.OS.release="buster" \
       sources.APP="Wordpress" \
