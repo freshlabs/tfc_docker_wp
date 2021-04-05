@@ -25,6 +25,25 @@ ADDCUSTOMPLUGINS="no";
 REMOVEDEFAULTPLUGINS="yes"
 # Stop defining variables
 
+
+# Persistent/non-persistent is being removed. For now we just sync and link the two
+# TODO: Clean up and have a single directory
+
+# Only do this if it's not already a symbolic link
+if ! [ -L $VOLPATH ]; then
+  # Copy all non-persistent files to persistent
+  cp -rf "$VOLPATH" "$PERSPATH"
+
+  # Delete from non persistent files
+  rm -rf "$VOLPATH"
+
+  # Link from non persistent to persistent
+  ln -nsf "$PERSPATH" "$VOLPATH"
+fi
+
+
+
+
 # This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
 # when we no longer need to migrate older bitnami deployments, this can be removed as well as the 1001 user creation
 if [ -d "/bitnami/wordpress" ]; then
@@ -150,38 +169,9 @@ if [ ! -f "$INSTALLFILE" ]; then
 
   ADDCUSTOMPLUGINS="yes"
 
+  info "Finished running a new blank install"
+
 fi
-
-info "This appears to be an existing install, so we are just recovering the existing website"
-
-# We need to evaluate if some files are sym links or files / directories and delete them accordingly
-if [ -f "$VOLPATH/.htaccess" ]; then
-  info "The .htaccess on the vol directory should not exists at this point, we are deleting it."
-  rm -rf "$VOLPATH"/.htaccess
-fi
-
-if [ -f "$VOLPATH/wp-config.php" ]; then
-  info "The wp-config.php on the vol directory should not exists at this point, we are deleting it."
-  rm -rf "$VOLPATH"/wp-config.php
-fi
-
-if [ -d "$VOLPATH/wp-content" ]; then
-  info "The wp-content on the vol directory should not exists at this point, we are deleting it."
-  rm -rf "$VOLPATH"/wp-content/
-fi
-
-# We need to check for wordfence and persist its required root files
-if [ -f "$VOLPATH/wordfence-waf.php" ]; then
-  info "The wordfence-waf.php on the vol directory should not exists at this point, we are persisting it and creating a symbolic link instead."
-  mv "$VOLPATH"/wordfence-waf.php "$PERSPATH"/wordfence-waf.php
-  ln -nsf "$PERSPATH"/wordfence-waf.php "$VOLPATH"/wordfence-waf.php
-fi
-
-# Everything from this point forward is to be executed regardless of an install or upgrade
-info "Create Symbolic links to Persistent Storage"
-ln -nsf "$PERSPATH"/.htaccess "$VOLPATH"/.htaccess
-ln -nsf "$PERSPATH"/wp-config.php "$VOLPATH"/wp-config.php
-ln -nsf "$WPCONTENTDIR" "$VOLPATH"/wp-content
 
 info "Fixing permissions"
 chown -h 1001 "$VOLPATH"/wp-config.php
@@ -251,4 +241,4 @@ info "Make sure both Wordpress and DB are up to date"
 wp core update --version="$VERSIONONFILE" --path="$VOLPATH"
 wp core update-db --path="$VOLPATH"
 
-info "We done dawg... let's get the party started >.<"
+info "All done!"
