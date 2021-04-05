@@ -37,7 +37,7 @@ if ! [ -L $VOLPATH ]; then
   cp -rf "$VOLPATH" "$PERSPATH"
 
   info "Deleting non-persistent files"
-  rm -rf "$VOLPATH"
+  sudo rm -rf "$VOLPATH"
 
   info "Creating symbolic link to non-persistent directory"
   ln -nsf "$PERSPATH" "$VOLPATH"
