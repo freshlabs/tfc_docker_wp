@@ -31,14 +31,20 @@ REMOVEDEFAULTPLUGINS="yes"
 
 # Only do this if it's not already a symbolic link
 if ! [ -L $VOLPATH ]; then
-  # Copy all non-persistent files to persistent
+  info "Merging persistent and disposable directories."
+
+  info "Copying non-persistent files to persistent"
   cp -rf "$VOLPATH" "$PERSPATH"
 
-  # Delete from non persistent files
+  info "Deleting non-persistent files"
   rm -rf "$VOLPATH"
 
-  # Link from non persistent to persistent
+  info "Creating symbolic link to non-persistent directory"
   ln -nsf "$PERSPATH" "$VOLPATH"
+
+  info "Finished merging persistent and disposable directories."
+else
+  info "Persistent and disposable directories are already sym linked."
 fi
 
 
