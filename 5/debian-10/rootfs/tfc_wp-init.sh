@@ -11,13 +11,13 @@ ROOTPATH="/bitnami/tfc_wp";
 OLDROOTPATH="/opt/bitnami/tfc_wp";
 
 # Install File Location
-INSTALLFILE="$VOLPATH/.alreadyinstalled";
+INSTALLFILE="$ROOTPATH/.alreadyinstalled";
 # Latest Version File Location
-LATESTVERSION="$VOLPATH/.lastversioninstalled";
+LATESTVERSION="$ROOTPATH/.lastversioninstalled";
 # WP Temporary Dir Location
-WPTEMPDIR="$VOLPATH/tmp";
+WPTEMPDIR="$ROOTPATH/tmp";
 # WP Content Dir Location
-WPCONTENTDIR="$VOLPATH/wp-content";
+WPCONTENTDIR="$ROOTPATH/wp-content";
 # Migration flag (overritten on an actual migration)
 MIGRATIONFLAG="no";
 # Add Custom plugins on a regular run?
@@ -125,6 +125,8 @@ fi
 info "Fixing permissions"
 chown -h 1001 "$ROOTPATH"/wp-config.php
 chown -h 1001 "$ROOTPATH"/wp-content
+chown -h 1001 "$ROOTPATH"/.alreadyinstalled
+chown -h 1001 "$ROOTPATH"/.htaccess
 
 info "Cleanup files for tidyness"
 rm -rf "$ROOTPATH"/wp-config-sample.php

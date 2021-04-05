@@ -18,3 +18,4 @@ chmod 775 /bitnami/tfc_wp
 chown -R 1001 /opt/bitnami/tfc_wp
 chown -R 1001 /bitnami/tfc_wp
 chown -R 1001:1001 /bitnami/tfc_wp/.wp-cli
+
