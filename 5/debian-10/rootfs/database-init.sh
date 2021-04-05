@@ -20,7 +20,6 @@ if [ $INSTALL_FORCE_CLEANUP = "yes" ]; then
     info "Permanent database user cleanup completed."
 
 fi
-# Are we forcing a cleanup?
 
 # Are we migrating from another remote db?
 if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
@@ -30,25 +29,21 @@ if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
     info "Source database has been backed up as /bitnami/tfc_wp/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql"
 
 fi
-# Are we migrating from another remote db?
 
 # Setting up Database ...
 info "Creating Database for this install '$WORDPRESS_DATABASE_NAME' ..."
 mysql_cmd=( $MYSQLBASECMD -e 'CREATE DATABASE IF NOT EXISTS `'$WORDPRESS_DATABASE_NAME'`' )
 "${mysql_cmd[@]}"
 info "Database creation completed"
-# Setting up Database Finished
 
 # Setting up database USR / PWD ...
 info "Creating Database User for this database '$WORDPRESS_DATABASE_USER' ..."
 mysql_cmd=( $MYSQLBASECMD -e 'CREATE USER IF NOT EXISTS `'$WORDPRESS_DATABASE_USER'`@`%` IDENTIFIED BY "'$WORDPRESS_DATABASE_PASSWORD'"' )
 "${mysql_cmd[@]}"
 info "Database User creation completed"
-# Setting up database USR / PWD Finished
 
 # Grant new USR DB Permissions ...
 info "Assigning DB Permissions to new USR '$WORDPRESS_DATABASE_USER' to '$WORDPRESS_DATABASE_NAME' ..."
 mysql_cmd=( $MYSQLBASECMD -e 'GRANT ALL PRIVILEGES ON `'$WORDPRESS_DATABASE_NAME'`.* TO `'$WORDPRESS_DATABASE_USER'`@`%`' )
 "${mysql_cmd[@]}"
 info "Assigning DB Permissions to new USR completed"
-# Grant new USR DB Permissions Finished
