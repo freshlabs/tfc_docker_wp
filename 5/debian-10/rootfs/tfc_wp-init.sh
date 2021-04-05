@@ -56,8 +56,12 @@ else
 
 fi
 
-  info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
-  wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --force
+info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
+wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --force
+
+info "Setting up folder /bitnami/tfc_wp/tmp"
+mkdir -p /bitnami/tfc_wp/tmp
+chmod 775 /bitnami/tfc_wp/tmp
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
