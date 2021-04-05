@@ -10,13 +10,13 @@ VOLPATH="/opt/bitnami/tfc_wp";
 # Permanent Storage Path
 PERSPATH="/bitnami/tfc_wp";
 # Install File Location
-INSTALLFILE="$PERSPATH/.alreadyinstalled";
+INSTALLFILE="$VOLPATH/.alreadyinstalled";
 # Latest Version File Location
-LATESTVERSION="$PERSPATH/.lastversioninstalled";
+LATESTVERSION="$VOLPATH/.lastversioninstalled";
 # WP Temporary Dir Location
 WPTEMPDIR="$VOLPATH/tmp";
 # WP Content Dir Location
-WPCONTENTDIR="$PERSPATH/wp-content";
+WPCONTENTDIR="$VOLPATH/wp-content";
 # Migration flag (overritten on an actual migration)
 MIGRATIONFLAG="no";
 # Add Custom plugins on a regular run?
@@ -26,50 +26,17 @@ REMOVEDEFAULTPLUGINS="yes"
 # Stop defining variables
 
 
-# Persistent/non-persistent is being removed. For now we just sync and link the two
+# Persistent/non-persistent is being removed. For now we just sync the two
 # TODO: Clean up and have a single directory
+info "Merging persistent and disposable directories."
 
-# Only do this if it's not already a symbolic link
-if ! [ -L $VOLPATH ]; then
-  info "Merging persistent and disposable directories."
+info "Copying all files to live directory"
+cp -rf "$PERSPATH" "$VOLPATH"
 
-  info "Copying non-persistent files to persistent"
-  cp -rf "$VOLPATH" "$PERSPATH"
+info "Deleting files from old directory"
+rm -rf "$PERSPATH"/*
 
-  info "Deleting non-persistent files"
-  rm -rf "$VOLPATH"/*
-
-  info "Creating symbolic link to non-persistent directory"
-  ln -nsf "$PERSPATH" "$VOLPATH"
-
-  info "Finished merging persistent and disposable directories."
-else
-  info "Persistent and disposable directories are already sym linked."
-fi
-
-
-
-
-# This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
-# when we no longer need to migrate older bitnami deployments, this can be removed as well as the 1001 user creation
-if [ -d "/bitnami/wordpress" ]; then
-
-  info "Looks like a previous wordpress install existed here, lets bring that data over to our new setup."
-
-  sudo mkdir -p "$PERSPATH"
-  yes | sudo cp -rf /bitnami/wordpress/* "$PERSPATH"
-
-  info "Change bitnami dir owner and permissions to non-root"
-  sudo chown -R 1001:1001 /bitnami
-  sudo chmod 775 /bitnami
-
-  info "We should now rename that old wordpress install so we don't re-import it again in the future"
-  mv /bitnami/wordpress /bitnami/bitnami_wp_backup
-
-  MIGRATIONFLAG="yes";
-
-fi
-# This placeholder function should run only when the container is executed as root so we can migrate to non-root environment
+info "Finished merging persistent and disposable directories."
 
 # Are we forcing a fresh start?
 if [ $INSTALL_FORCE_CLEANUP = "yes" ]; then
@@ -82,7 +49,7 @@ fi
 
 # Setup wp-cli cache to our permanent storage and export the variable
 info "Set wp-cli cache dir at persistent storage"
-export WP_CLI_CACHE_DIR="$PERSPATH"/.wp-cli/cache
+export WP_CLI_CACHE_DIR="$VOLPATH"/.wp-cli/cache
 
 # Download WP Core files to disposable storage
 if [ ! -f "$LATESTVERSION" ]; then
@@ -107,7 +74,7 @@ fi
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
 
-  info "Install file does not exists, so we are going for a full blank install"
+  info "Install file does not exist, so we are going for a full blank install"
 
   # Create the WP Config File
   info "Creating wp-config on Disposable Storage (placeholder)"
@@ -137,29 +104,6 @@ if [ ! -f "$INSTALLFILE" ]; then
   info "Creating placeholder files"
   touch "$VOLPATH"/.htaccess
 
-  info "Our migration flag value is currently reported as: $MIGRATIONFLAG"
-
-  # Are we forcing a migration start?
-  if [ $MIGRATIONFLAG = "no" ]; then
-
-    info "Cleanup the placeholder files before moving them"
-    rm -rf "$PERSPATH"/.htaccess "$PERSPATH"/wp-config.php "$WPCONTENTDIR"
-
-    info "Moving some files from Disposable Storage to Persistent Storage"
-    mv -f "$VOLPATH"/.htaccess "$PERSPATH"/.htaccess
-    mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
-    mv -f "$VOLPATH"/wp-content "$WPCONTENTDIR"
-
-  elif [ $MIGRATIONFLAG = "yes" ]; then
-
-    info "Remove virgin install default files from volatile storage"
-    rm -rf "$VOLPATH"/.htaccess
-    rm -rf "$VOLPATH"/wp-content
-
-    info "Move our new wp-config.php file to perm storage"
-    mv -f "$VOLPATH"/wp-config.php "$PERSPATH"/wp-config.php
-
-  fi
 
   info "Setup placeholder install file"
   touch "$INSTALLFILE"
@@ -167,8 +111,8 @@ if [ ! -f "$INSTALLFILE" ]; then
   if [ $REMOVEDEFAULTPLUGINS = "yes" ]; then
     
     info "Removing default wordpress plugins"
-    rm -rf "$PERSPATH"/wp-content/plugins/akismet/
-    rm -f "$PERSPATH"/wp-content/plugins/hello.php
+    rm -rf "$VOLPATH"/wp-content/plugins/akismet/
+    rm -f "$VOLPATH"/wp-content/plugins/hello.php
     info "Default Wordpress Plugins Removed"
 
   fi
@@ -202,7 +146,7 @@ info "Add new require/freshlabs command"
 sed -i --follow-symlinks "\$arequire('"$VOLPATH"/freshlabs.php');" "$VOLPATH"/wp-config.php
 
 # Consider importing SQL file if conditions met
-if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql" ] && [ ! -f "$PERSPATH/.migratedsql" ]; then
+if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$VOLPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql" ] && [ ! -f "$VOLPATH/.migratedsql" ]; then
 
   # we will need to force recreate the wpconfig file
   info "Sinve we've migrated to a local environment we now need to fix our wp-config file"
@@ -212,13 +156,12 @@ if [ $MIGRATE_DB_TO_LOCAL = "yes" ] && [ -f "$PERSPATH/$MIGRATE_WORDPRESS_DATABA
   wp config set DB_HOST "${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --path="$VOLPATH"
 
   info "Found DB Import file, importing it now..."
-  wp db import $PERSPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql --path="$VOLPATH"
+  wp db import $VOLPATH/$MIGRATE_WORDPRESS_DATABASE_NAME-migrate.sql --path="$VOLPATH"
 
   info "Setup placeholder db imported file (.migratedsql)"
-  touch "$PERSPATH/.migratedsql"
+  touch "$VOLPATH/.migratedsql"
 
 fi
-# Consider importing SQL file if conditions met
 
 if [ $ADDCUSTOMPLUGINS = "yes" ]; then
   # this is prime time to setup additional plugins (only on first install)
