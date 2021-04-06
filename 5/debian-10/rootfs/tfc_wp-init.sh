@@ -112,6 +112,7 @@ info "Fixing permissions"
 chown -h 1001 "$ROOTPATH"/wp-config.php
 chown -h 1001 "$ROOTPATH"/wp-content
 chown -h 1001 "$ROOTPATH"/.alreadyinstalled
+touch "$ROOTPATH"/.htaccess
 chown -h 1001 "$ROOTPATH"/.htaccess
 
 info "Make sure wp-config paths and values are correct"
