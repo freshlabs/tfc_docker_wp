@@ -61,7 +61,8 @@ wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --
 
 info "Setting up folder /bitnami/tfc_wp/tmp"
 mkdir -p /bitnami/tfc_wp/tmp
-chmod 775 /bitnami/tfc_wp/tmp
+chown -R 1001 /bitnami/tfc_wp
+chmod -R 775 /bitnami/tfc_wp
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
@@ -69,16 +70,8 @@ if [ ! -f "$INSTALLFILE" ]; then
   info "Install file does not exist, so we are going for a full blank install"
 
   # Create the WP Config File
-  info "Creating wp-config on Disposable Storage (placeholder)"
+  info "Create WP Config"
   wp config create --dbhost="${MARIADB_HOST}:${MARIADB_PORT_NUMBER}" --dbname="${WORDPRESS_DATABASE_NAME}" --dbprefix="${WORDPRESS_TABLE_PREFIX}" --dbcharset=utf8 --dbuser="${WORDPRESS_DATABASE_USER}" --dbpass="${WORDPRESS_DATABASE_PASSWORD}" --locale=en_US --skip-check --path="$ROOTPATH" --force
-
-  # Set some flags on wp-config file
-  info "Making aditional adjustments to wp-config.php file"
-  wp config set WP_DEBUG false --raw --path="$ROOTPATH"
-  wp config set WP_DEBUG_LOG false --raw --path="$ROOTPATH"
-  wp config set WP_PLUGIN_DIR "$WPCONTENTDIR"/plugins --path="$ROOTPATH"
-  wp config set FS_METHOD direct --path="$ROOTPATH"
-  wp config set WP_TEMP_DIR "$WPTEMPDIR" --path="$ROOTPATH"
 
   # Make some changes to wp-config file
   info "Using SED to adjust our wp-config.php file with some additional settings"
@@ -120,6 +113,13 @@ chown -h 1001 "$ROOTPATH"/wp-config.php
 chown -h 1001 "$ROOTPATH"/wp-content
 chown -h 1001 "$ROOTPATH"/.alreadyinstalled
 chown -h 1001 "$ROOTPATH"/.htaccess
+
+info "Make sure wp-config paths and values are correct"
+wp config set WP_DEBUG false --raw --path="$ROOTPATH"
+wp config set WP_DEBUG_LOG false --raw --path="$ROOTPATH"
+wp config set WP_PLUGIN_DIR "$WPCONTENTDIR"/plugins --path="$ROOTPATH"
+wp config set FS_METHOD direct --path="$ROOTPATH"
+wp config set WP_TEMP_DIR "$WPTEMPDIR" --path="$ROOTPATH"
 
 info "Cleanup files for tidyness"
 rm -rf "$ROOTPATH"/wp-config-sample.php
