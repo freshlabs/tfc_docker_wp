@@ -129,6 +129,9 @@ rm -rf "$ROOTPATH"/wp-config-sample.php
 rm -rf "$ROOTPATH"/license.txt
 rm -rf "$ROOTPATH"/readme.html
 
+info "Remove maintenance file if it exists"
+unlink "$ROOTPATH"/.maintenance
+
 info "Make more changes to wp-config file (add custom function)"
 yes | cp -rf /freshlabs.php "$ROOTPATH"/freshlabs.php
 
