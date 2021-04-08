@@ -63,8 +63,8 @@ info "Setting up folder /bitnami/tfc_wp/tmp"
 mkdir -p /bitnami/tfc_wp/tmp
 
 info "Resetting permissions for /bitnami/tfc_wp/tmp"
-chown -R 1001 /bitnami/tfc_wp
-chmod -R 775 /bitnami/tfc_wp
+chown -R 1001 /bitnami/tfc_wp &>/dev/null
+chmod -R 775 /bitnami/tfc_wp &>/dev/null
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
@@ -111,11 +111,11 @@ if [ ! -f "$INSTALLFILE" ]; then
 fi
 
 info "Fixing permissions"
-chown -h 1001 "$ROOTPATH"/wp-config.php
-chown -h 1001 "$ROOTPATH"/wp-content
-chown -h 1001 "$ROOTPATH"/.alreadyinstalled
-touch "$ROOTPATH"/.htaccess
-chown -h 1001 "$ROOTPATH"/.htaccess
+chown -h 1001 "$ROOTPATH"/wp-config.php &>/dev/null
+chown -h 1001 "$ROOTPATH"/wp-content &>/dev/null
+chown -h 1001 "$ROOTPATH"/.alreadyinstalled &>/dev/null
+touch "$ROOTPATH"/.htaccess &>/dev/null
+chown -h 1001 "$ROOTPATH"/.htaccess &>/dev/null
 
 info "Make sure wp-config paths and values are correct"
 wp config set WP_DEBUG false --raw --path="$ROOTPATH"

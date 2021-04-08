@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Create non-root user (this is only required for migrating existing bitnami images, can otherwise be removed)
-info "Checking for our non-root user"
-if id 1001 &>/dev/null; then
-  info "User 1001 already exists"
-else
-  info 'user 1001 not found, creating'
-  useradd -ms /bin/bash 1001 || true
-  usermod -g root 1001 || true
-  echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
-fi
+# info "Checking for our non-root user"
+# if id 1001 &>/dev/null; then
+#   info "User 1001 already exists"
+# else
+#   info 'User 1001 not found, creating'
+#   useradd -ms /bin/bash 1001 || true
+#   usermod -g root 1001 || true
+#   echo '1001 ALL=NOPASSWD: ALL' >> /etc/sudoers
+# fi
 
 # Setup folders and permissions
 
