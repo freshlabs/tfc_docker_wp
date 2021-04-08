@@ -61,8 +61,10 @@ wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --
 
 info "Setting up folder /bitnami/tfc_wp/tmp"
 mkdir -p /bitnami/tfc_wp/tmp
-chown -R 1001 /bitnami/tfc_wp
-chmod -R 775 /bitnami/tfc_wp
+
+info "Resetting permissions for /bitnami/tfc_wp/tmp"
+chown -Rf 1001 /bitnami/tfc_wp
+chmod -Rf 775 /bitnami/tfc_wp
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
