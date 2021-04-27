@@ -32,6 +32,9 @@ REMOVEDEFAULTPLUGINS="yes"
 if [ $IONCUBE_ENABLED = "1" ]; then
   info "ionCube is enabled for this website, adding the loader file and config entry ..."
   curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip -o /tmp/ioncube.zip
+  mkdir -p /tmp/ioncube
+  chmod 777 /tmp/ioncube
+  chown -R 1001 /tmp/ioncube
   unzip -o -qq /tmp/ioncube.zip
   cp /tmp/ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
   echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" >> /opt/bitnami/php/lib/php.ini
