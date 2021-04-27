@@ -35,7 +35,7 @@ if [ $IONCUBE_ENABLED = "1" ]; then
   mkdir -p /tmp/ioncube
   chmod 777 /tmp/ioncube
   chown -R 1001 /tmp/ioncube
-  unzip -o -qq /tmp/ioncube.zip
+  unzip -o -qq /tmp/ioncube.zip -d /tmp/ioncube
   cp /tmp/ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
   echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" >> /opt/bitnami/php/lib/php.ini
   rm -rf /tmp/ioncube.zip
