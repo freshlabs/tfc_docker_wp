@@ -105,7 +105,7 @@ EXPOSE 8080 8443
 RUN /build/setup-tfc_wp.sh
 
 # Exit root and run as unpriviledge user
-USER 1001
+# USER 1001
 
 # Run Entrypoint Script
 ENTRYPOINT [ "/app-entrypoint.sh" ]

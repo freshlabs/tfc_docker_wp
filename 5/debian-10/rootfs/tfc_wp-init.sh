@@ -12,7 +12,7 @@ OLDROOTPATH="/opt/bitnami/tfc_wp";
 
 # PHP ini location
 PHPINI="/opt/bitnami/php/lib/php.ini"
-PHPINITEMP="/tmp/php.ini.temp"
+PHPINITEMP="/tmp/tempphp.ini"
 # Install File Location
 INSTALLFILE="$ROOTPATH/.alreadyinstalled";
 # Latest Version File Location
