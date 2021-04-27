@@ -26,6 +26,19 @@ ADDCUSTOMPLUGINS="no";
 REMOVEDEFAULTPLUGINS="yes"
 # Stop defining variables
 
+
+# Add IonCube if enabled
+# Needs updating when the PHP version updates
+if [ $IONCUBE_ENABLED = "1" ]; then
+  info "ionCube is enabled for this website, adding the loader file and config entry ..."
+  curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip -o /tmp/ioncube.zip
+  unzip -o -qq ioncube.zip
+  cp ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
+  echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" >> /opt/bitnami/php/lib/php.ini
+  info "ionCube loader install completed"
+fi
+
+
 # Are we forcing a fresh start?
 if [ $INSTALL_FORCE_CLEANUP = "yes" ]; then
 
