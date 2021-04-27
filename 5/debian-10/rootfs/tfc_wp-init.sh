@@ -84,6 +84,9 @@ else
 
 fi
 
+# Exit root and run as unprivileged user
+USER 1001
+
 info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
 wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --force
 
@@ -93,9 +96,6 @@ mkdir -p /bitnami/tfc_wp/tmp
 info "Resetting permissions for /bitnami/tfc_wp/tmp"
 chown -R 1001 /bitnami/tfc_wp || true
 chmod -R 775 /bitnami/tfc_wp || true
-
-# Exit root and run as unprivileged user
-USER 1001
 
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
