@@ -40,6 +40,9 @@ if [ $IONCUBE_ENABLED = "1" ]; then
   chown -R 1001 /tmp/ioncube
   unzip -o -qq /tmp/ioncube.zip -d /tmp
   cp /tmp/ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
+  touch PHPINITEMP
+  chmod 777 PHPINITEMP
+  chown -R 1001 PHPINITEMP
   (echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" && cat PHPINI) > PHPINITEMP && mv PHPINITEMP PHPINI
 
   rm -rf /tmp/ioncube.zip
