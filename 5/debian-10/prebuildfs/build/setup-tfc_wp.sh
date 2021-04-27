@@ -35,4 +35,7 @@ mkdir -p /opt/bitnami/tfc_wp
 chmod 775 /opt/bitnami/tfc_wp
 chown -R 1001 /opt/bitnami/tfc_wp
 
-
+info "Setting up folder /tmp"
+mkdir -p /tmp
+chmod 775 /tmp
+chown -R 1001 /tmp
