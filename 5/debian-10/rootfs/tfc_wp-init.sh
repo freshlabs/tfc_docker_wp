@@ -31,12 +31,12 @@ REMOVEDEFAULTPLUGINS="yes"
 # Needs updating when the PHP version updates
 if [ $IONCUBE_ENABLED = "1" ]; then
   info "ionCube is enabled for this website, adding the loader file and config entry ..."
-  curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip -o /bitnami/tfc_wp/tmp/ioncube.zip
-  unzip -o -qq /bitnami/tfc_wp/tmp/ioncube.zip
-  cp /bitnami/tfc_wp/tmp/ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
+  curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip -o /tmp/ioncube.zip
+  unzip -o -qq /tmp/ioncube.zip
+  cp /tmp/ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
   echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" >> /opt/bitnami/php/lib/php.ini
-  rm -rf /bitnami/tfc_wp/tmp/ioncube.zip
-  rm -rf /bitnami/tfc_wp/tmp/ioncube
+  rm -rf /tmp/ioncube.zip
+  rm -rf /tmp/ioncube
   info "ionCube loader install completed"
 fi
 
