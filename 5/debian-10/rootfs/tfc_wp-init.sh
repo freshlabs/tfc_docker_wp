@@ -10,6 +10,9 @@ ROOTPATH="/bitnami/tfc_wp";
 # Old volatile directory (deprecated)
 OLDROOTPATH="/opt/bitnami/tfc_wp";
 
+# PHP ini location
+PHPINI="/opt/bitnami/php/lib/php.ini"
+PHPINITEMP="/opt/bitnami/php/lib/php.ini.temp"
 # Install File Location
 INSTALLFILE="$ROOTPATH/.alreadyinstalled";
 # Latest Version File Location
@@ -37,7 +40,8 @@ if [ $IONCUBE_ENABLED = "1" ]; then
   chown -R 1001 /tmp/ioncube
   unzip -o -qq /tmp/ioncube.zip -d /tmp
   cp /tmp/ioncube/ioncube_loader_lin_7.4.so /opt/bitnami/php/lib/php/extensions/
-  echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" >> /opt/bitnami/php/lib/php.ini
+  (echo "zend_extension = /opt/bitnami/php/lib/php/extensions/ioncube_loader_lin_7.4.so" && cat PHPINI) > PHPINITEMP && mv PHPINITEMP PHPINI
+
   rm -rf /tmp/ioncube.zip
   rm -rf /tmp/ioncube
   info "ionCube loader install completed"
