@@ -84,9 +84,6 @@ else
 
 fi
 
-# Exit root and run as unprivileged user
-USER 1001
-
 info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
 wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --force
 
