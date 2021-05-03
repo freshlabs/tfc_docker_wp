@@ -61,37 +61,20 @@ fi
 info "Set wp-cli cache dir at persistent storage"
 export WP_CLI_CACHE_DIR="$ROOTPATH"/.wp-cli/cache
 
-# Download WP Core files to disposable storage
-if [ ! -f "$LATESTVERSION" ]; then
-
-  VERSIONONFILE="5.7"
-
-else
-
-  VERSIONONFILE=$(grep . $LATESTVERSION)
-
-  if [ "$VERSIONONFILE" = "5.5.3-alpha-49449" ]; then
-
-  VERSIONONFILE="5.5.3"
-
-  fi
-
-fi
-
-info "Downloading WP (version: $VERSIONONFILE) to Disposable Storage"
-wp core download --version="$VERSIONONFILE" --locale=en_US --path="$ROOTPATH" --force
-
-info "Setting up folder /bitnami/tfc_wp/tmp"
-mkdir -p /bitnami/tfc_wp/tmp
-
-info "Resetting permissions for /bitnami/tfc_wp/tmp"
-chown -R 1001 /bitnami/tfc_wp || true
-chmod -R 775 /bitnami/tfc_wp || true
-
 # We need to identify if we are dealing with a new install (or cleanup) or if this is an existing build
 if [ ! -f "$INSTALLFILE" ]; then
 
   info "Install file does not exist, so we are going for a full blank install"
+
+  info "Downloading WP latest version to Disposable Storage"
+  wp core download --locale=en_US --path="$ROOTPATH" --force
+
+  info "Setting up folder /bitnami/tfc_wp/tmp"
+  mkdir -p /bitnami/tfc_wp/tmp
+
+  info "Resetting permissions for /bitnami/tfc_wp/tmp"
+  chown -R 1001 /bitnami/tfc_wp || true
+  chmod -R 775 /bitnami/tfc_wp || true
 
   # Create the WP Config File
   info "Create WP Config"
@@ -128,11 +111,15 @@ if [ ! -f "$INSTALLFILE" ]; then
 
   ADDCUSTOMPLUGINS="yes"
 
+  info "Make sure both Wordpress and DB are up to date"
+  wp core update --version="$VERSIONONFILE" --path="$ROOTPATH"
+  wp core update-db --path="$ROOTPATH"
+
   info "Finished running a new blank install"
 
 fi
 
-info "Fixing permissions"
+info "Making sure permissions and owner is correct on key wp files"
 chown -h 1001 "$ROOTPATH"/wp-config.php &>/dev/null
 chown -h 1001 "$ROOTPATH"/wp-content &>/dev/null
 chown -h 1001 "$ROOTPATH"/.alreadyinstalled &>/dev/null
@@ -207,9 +194,5 @@ if [ $ADDCUSTOMPLUGINS = "yes" ]; then
   echo "<< Fresh Connect Key"
   # Grab FCK's 
 fi
-
-info "Make sure both Wordpress and DB are up to date"
-wp core update --version="$VERSIONONFILE" --path="$ROOTPATH"
-wp core update-db --path="$ROOTPATH"
 
 info "All done!"
