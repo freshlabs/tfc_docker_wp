@@ -8,3 +8,4 @@ docker-compose.yml
 .idea/workspace.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/misc.xml
+.DS_Store
